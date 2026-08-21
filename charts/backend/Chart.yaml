@@ -11,6 +11,6 @@ dependencies:
     repository: "https://operator.min.io/"
     alias: minio-operator
   - name: clickhouse-operator-helm
-    version: "0.27.3"
+    version: "0.0.1"
     repository: "oci://ghcr.io/clickhouse"
     alias: clickhouse-operator
