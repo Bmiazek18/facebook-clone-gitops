@@ -50,7 +50,7 @@ data:
               },
               "editorMode": "code",
               "expr": "sum(system_cpu_usage) by (app)",
-              "legendFormat": "{{app}}",
+              "legendFormat": "{{ `{{app}}` }}",
               "range": true,
               "refId": "A"
             }
@@ -88,7 +88,7 @@ data:
               },
               "editorMode": "code",
               "expr": "sum(jvm_memory_used_bytes{area=\"heap\"}) by (app)",
-              "legendFormat": "{{app}}",
+              "legendFormat": "{{ `{{app}}` }}",
               "range": true,
               "refId": "A"
             }
@@ -125,7 +125,7 @@ data:
               },
               "editorMode": "code",
               "expr": "sum(rate(grpc_server_processing_duration_seconds_count[1m])) by (app, method)",
-              "legendFormat": "{{app}} - {{method}}",
+              "legendFormat": "{{ `{{app}} - {{method}}` }}",
               "range": true,
               "refId": "A"
             }
@@ -162,7 +162,7 @@ data:
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.99, sum(rate(grpc_server_processing_duration_seconds_bucket[5m])) by (le, app, method))",
-              "legendFormat": "{{app}} - {{method}}",
+              "legendFormat": "{{ `{{app}} - {{method}}` }}",
               "range": true,
               "refId": "A"
             }
@@ -199,7 +199,7 @@ data:
               },
               "editorMode": "code",
               "expr": "resilience4j_circuitbreaker_state",
-              "legendFormat": "{{name}} (state: {{state}})",
+              "legendFormat": "{{ `{{name}} (state: {{state}})` }}",
               "range": true,
               "refId": "A"
             }
@@ -235,7 +235,7 @@ data:
               },
               "editorMode": "code",
               "expr": "resilience4j_circuitbreaker_failure_rate",
-              "legendFormat": "{{name}}",
+              "legendFormat": "{{ `{{name}}` }}",
               "range": true,
               "refId": "A"
             }
@@ -272,7 +272,7 @@ data:
               },
               "editorMode": "code",
               "expr": "cnpg_pg_stat_database_numbackends",
-              "legendFormat": "{{datname}}",
+              "legendFormat": "{{ `{{datname}}` }}",
               "range": true,
               "refId": "A"
             }
@@ -309,7 +309,7 @@ data:
               },
               "editorMode": "code",
               "expr": "redis_memory_used_bytes",
-              "legendFormat": "{{instance}}",
+              "legendFormat": "{{ `{{instance}}` }}",
               "range": true,
               "refId": "A"
             }
@@ -346,7 +346,7 @@ data:
               },
               "editorMode": "code",
               "expr": "rate(otelcol_exporter_enqueue_failed_spans[1m])",
-              "legendFormat": "{{exporter}}",
+              "legendFormat": "{{ `{{exporter}}` }}",
               "range": true,
               "refId": "A"
             }
