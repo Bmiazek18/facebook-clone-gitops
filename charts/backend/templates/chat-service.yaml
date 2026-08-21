@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-service
+  labels:
+    app: chat-service
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: chat-service
+  template:
+    metadata:
+      labels:
+        app: chat-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8087"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: chat-service-sa
+      {{- end }}
+      containers:
+        - name: chat-service
+          image: "{{ .Values.images.chatService.repository }}:{{ .Values.images.chatService.tag }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8087
+            - name: grpc
+              containerPort: 9095
+          env:
+            - name: SCYLLA_CONTACT_POINTS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SCYLLA_CONTACT_POINTS
+            - name: MQTT_BROKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: MQTT_BROKER_URL
+            - name: USER_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: USER_SERVICE_GRPC_ADDRESS
+            - name: MINIO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: MINIO_URL
+            - name: MINIO_PUBLIC_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: MINIO_PUBLIC_ENDPOINT
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: MINIO_ACCESS_KEY
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: MINIO_SECRET_KEY
+            - name: MEDIA_STABLE_URL_BASE
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: MEDIA_STABLE_URL_BASE
+            - name: VAULT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: VAULT_URI
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: VAULT_TOKEN
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SENTRY_DSN
+            - name: SENTRY_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SENTRY_ENVIRONMENT
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
+            - name: JAVA_TOOL_OPTIONS
+              value: -Xms128m -Xmx256m
+          readinessProbe:
+            grpc:
+              port: grpc
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            grpc:
+              port: grpc
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-service
+spec:
+  selector:
+    app: chat-service
+  ports:
+    - name: http
+      port: 8087
+      targetPort: http
+    - name: grpc
+      port: 9095
+      targetPort: grpc

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketplace-edge-service
+  labels:
+    app: marketplace-edge-service
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: marketplace-edge-service
+  template:
+    metadata:
+      labels:
+        app: marketplace-edge-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8099"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: marketplace-edge-service-sa
+      {{- end }}
+      containers:
+        - name: marketplace-edge-service
+          image: "{{ .Values.images.marketplaceEdgeService.repository | default "ghcr.io/bmiazek18/facebook-clone1-marketplace-edge-service" }}:{{ .Values.images.marketplaceEdgeService.tag | default "latest" }}"
+          ports:
+            - name: http
+              containerPort: 8099
+          env:
+            - name: MARKETPLACE_SERVICE_GRPC_ADDRESS
+              value: "dns:///marketplace-service:9096"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx256m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: marketplace-edge-service
+spec:
+  selector:
+    app: marketplace-edge-service
+  ports:
+    - name: http
+      port: 8099
+      targetPort: http

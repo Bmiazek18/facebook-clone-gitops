@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marketplace-service
+  labels:
+    app: marketplace-service
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: marketplace-service
+  template:
+    metadata:
+      labels:
+        app: marketplace-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8090"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: marketplace-service-sa
+      {{- end }}
+      containers:
+        - name: marketplace-service
+          image: "{{ .Values.images.marketplaceService.repository | default "ghcr.io/bmiazek18/facebook-clone1-marketplace-service" }}:{{ .Values.images.marketplaceService.tag | default "latest" }}"
+          ports:
+            - name: http
+              containerPort: 8090
+            - name: grpc
+              containerPort: 9096
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_DATA_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATA_REDIS_HOST
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_KAFKA_BOOTSTRAP_SERVERS
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx256m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: marketplace-service
+spec:
+  selector:
+    app: marketplace-service
+  ports:
+    - name: http
+      port: 8090
+      targetPort: http
+    - name: grpc
+      port: 9096
+      targetPort: grpc

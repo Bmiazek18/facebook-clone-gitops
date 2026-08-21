@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-service
+  labels:
+    app: analytics-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analytics-service
+  template:
+    metadata:
+      labels:
+        app: analytics-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8095"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: analytics-service-sa
+      {{- end }}
+      containers:
+        - name: analytics-service
+          image: "{{ .Values.images.analyticsService.repository | default "ghcr.io/bmiazek18/facebook-clone1-analytics-service" }}:{{ .Values.images.analyticsService.tag | default "latest" }}"
+          ports:
+            - name: http
+              containerPort: 8095
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: ANALYTICS_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_KAFKA_BOOTSTRAP_SERVERS
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SENTRY_DSN
+            - name: SENTRY_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SENTRY_ENVIRONMENT
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx256m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-service
+spec:
+  selector:
+    app: analytics-service
+  ports:
+    - name: http
+      port: 8095
+      targetPort: http

@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notificationservice
+  labels:
+    app: notificationservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notificationservice
+  template:
+    metadata:
+      labels:
+        app: notificationservice
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8083"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: notificationservice-sa
+      {{- end }}
+      containers:
+        - name: notificationservice
+          image: "{{ .Values.images.notificationService.repository | default "ghcr.io/bmiazek18/facebook-clone1-notification-service" }}:{{ .Values.images.notificationService.tag | default "latest" }}"
+          ports:
+            - name: http
+              containerPort: 8083
+            - name: grpc
+              containerPort: 9093
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: NOTIFICATION_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_DATA_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATA_REDIS_HOST
+            - name: SPRING_DATA_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATA_REDIS_PORT
+            - name: VAULT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: VAULT_URI
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: VAULT_TOKEN
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SENTRY_DSN
+            - name: SENTRY_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SENTRY_ENVIRONMENT
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx256m"
+          readinessProbe:
+            grpc:
+              port: grpc
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            grpc:
+              port: grpc
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notificationservice
+spec:
+  selector:
+    app: notificationservice
+  ports:
+    - name: http
+      port: 8083
+      targetPort: http
+    - name: grpc
+      port: 9093
+      targetPort: grpc

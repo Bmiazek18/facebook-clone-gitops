@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feed-edge-service
+  labels:
+    app: feed-edge-service
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: feed-edge-service
+  template:
+    metadata:
+      labels:
+        app: feed-edge-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8084"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: feed-edge-service-sa
+      {{- end }}
+      containers:
+        - name: feed-edge-service
+          image: "{{ .Values.images.feedEdgeService.repository }}:{{ .Values.images.feedEdgeService.tag }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8084
+          env:
+            - name: FEED_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: FEED_SERVICE_GRPC_ADDRESS
+            - name: USER_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: USER_SERVICE_GRPC_ADDRESS
+            - name: SEARCH_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SEARCH_SERVICE_GRPC_ADDRESS
+            - name: SOCIAL_GRAPH_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SOCIAL_GRAPH_SERVICE_GRPC_ADDRESS
+            - name: GROUPS_SERVICE_GRPC_ADDRESS
+              value: "dns:///groups-service:9098"
+            - name: VAULT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: VAULT_URI
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: VAULT_TOKEN
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SENTRY_DSN
+            - name: SENTRY_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SENTRY_ENVIRONMENT
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
+            - name: JAVA_TOOL_OPTIONS
+              value: -Xms128m -Xmx256m
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feed-edge-service
+spec:
+  selector:
+    app: feed-edge-service
+  ports:
+    - name: http
+      port: 8084
+      targetPort: http

@@ -1,0 +1,140 @@
+replicaCount: 1
+
+images:
+  userService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-user-service
+    tag: "latest"
+  userEdgeService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-user-edge-service
+    tag: "latest"
+  socialgraphService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-socialgraph-service
+    tag: "latest"
+  socialgraphEdgeService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-socialgraph-edge-service
+    tag: "latest"
+  videoAbrService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-video-abr-service
+    tag: "latest"
+  searchService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-search-service
+    tag: "latest"
+  notificationService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-notification-service
+    tag: "latest"
+  apolloRouter:
+    repository: ghcr.io/apollographql/router
+    tag: "v2.17.0"
+  feedService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-feed-service
+    tag: "latest"
+  feedEdgeService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-feed-edge-service
+    tag: "latest"
+  chatService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-chat-service
+    tag: "latest"
+  chatEdgeService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-chat-edge-service
+    tag: "latest"
+  linkguardService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-linkguard-service
+    tag: "latest"
+  inferenceService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-inference-service
+    tag: "latest"
+  analyticsService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-analytics-service
+    tag: "latest"
+  recommendService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-recommend-service
+    tag: "latest"
+  groupsService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-groups-service
+    tag: "latest"
+  marketplaceService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-marketplace-service
+    tag: "latest"
+  marketplaceEdgeService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-marketplace-edge-service
+    tag: "latest"
+
+imagePullPolicy: IfNotPresent
+
+apiHost: "api.lab-bm.com"
+keycloakJwksUrl: "http://keycloak-service:8080/realms/myrealm/protocol/openid-connect/certs"
+
+config:
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql-user.apps.svc.cluster.local:5432/users_db
+  NOTIFICATION_DATASOURCE_URL: jdbc:postgresql://postgresql-notifications.apps.svc.cluster.local:5432/notifications_db
+  FEED_DATASOURCE_URL: jdbc:postgresql://postgresql-feed.apps.svc.cluster.local:5432/feed_db
+  ANALYTICS_DATASOURCE_URL: jdbc:clickhouse://clickhouse-analytics.apps.svc.cluster.local:8123/analytics_db
+  SPRING_DATA_REDIS_HOST: redis-master.apps.svc.cluster.local
+  SPRING_DATA_REDIS_PORT: "6379"
+  NEO4J_URI: bolt://neo4j.apps.svc.cluster.local:7687
+  NEO4J_USER: neo4j
+  MINIO_URL: http://minio.apps.svc.cluster.local:9000
+  MINIO_PUBLIC_ENDPOINT: https://media.lab-bm.com
+  MEDIA_STABLE_URL_BASE: https://api.lab-bm.com
+  USER_SERVICE_GRPC_ADDRESS: dns:///userservice:9090
+  SOCIAL_GRAPH_SERVICE_GRPC_ADDRESS: dns:///socialgraph-service:9091
+  SEARCH_SERVICE_GRPC_ADDRESS: dns:///search-service:9097
+  FEED_SERVICE_GRPC_ADDRESS: dns:///feedservice:9092
+  CHAT_SERVICE_GRPC_ADDRESS: dns:///chat-service:9095
+  SCYLLA_CONTACT_POINTS: scylla-cluster-client.apps.svc.cluster.local:9042
+  MQTT_BROKER_URL: tcp://mqtt-broker.apps.svc.cluster.local:1883
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka.apps.svc.cluster.local:9092
+  VAULT_URI: http://vault.apps.svc.cluster.local:8200
+  VAULT_TOKEN: vault-root-token
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector.observability:4317
+  LINK_GUARD_SERVICE_URL: http://linkguard-service:8086
+  INFERENCE_SERVICE_URL: http://inference-service:8000
+  SENTRY_ENVIRONMENT: production
+
+secrets:
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_DATASOURCE_PASSWORD: change-me
+  CLICKHOUSE_USER: default
+  CLICKHOUSE_PASSWORD: default_password
+  NEO4J_PASSWORD: change-me
+  MINIO_ACCESS_KEY: change-me
+  MINIO_SECRET_KEY: change-me
+  SENTRY_DSN: ""
+  SENTRY_TRACES_SAMPLE_RATE: "0.1"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+videoAbrResources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+    nvidia.com/gpu: "1"
+
+linkguardWorkerResources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 300m
+    memory: 256Mi
+
+inferenceResources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+    nvidia.com/gpu: "1"
+
+istio:
+  enabled: false

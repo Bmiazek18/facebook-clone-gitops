@@ -1,0 +1,24 @@
+apiVersion: scylla.scylladb.com/v1
+kind: ScyllaCluster
+metadata:
+  name: scylla-cluster
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  version: 5.2.0
+  agentVersion: 3.1.0
+  developerMode: true
+  datacenter:
+    name: datacenter1
+    racks:
+      - name: rack1
+        members: 1
+        storage:
+          capacity: 10Gi
+          storageClassName: local-path
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 512Mi

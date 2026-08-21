@@ -1,0 +1,341 @@
+{{- if .Values.istio.enabled }}
+# 1. Default Deny-All policy for the namespace
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  {}
+---
+# 2. Allow public access to apollo-router (main gateway)
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: apollo-router-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: apollo-router
+  action: ALLOW
+  rules:
+  - {} # Anyone can access the gateway
+---
+# 3. Allow public access to tusd (direct upload endpoint)
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: tusd-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: tusd
+  action: ALLOW
+  rules:
+  - {} # Direct uploads from external clients
+---
+# 4. Allow userservice-edge only from apollo-router
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: userservice-edge-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: userservice-edge
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/apollo-router-sa"]
+---
+# 5. Allow socialgraph-edge only from apollo-router
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: socialgraph-edge-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: socialgraph-edge
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/apollo-router-sa"]
+---
+# 6. Allow userservice from userservice-edge, search-service, feedservice, feed-edge-service, chat-service, and chat-edge-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: userservice-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: userservice
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/userservice-edge-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/search-service-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/feedservice-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/feed-edge-service-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/chat-service-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/chat-edge-service-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/mqtt-broker-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/linkguard-service-sa"
+---
+# 7. Allow socialgraph-service from socialgraph-edge, userservice, feedservice, and feed-edge-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: socialgraph-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: socialgraph-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/socialgraph-edge-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/userservice-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/feedservice-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/feed-edge-service-sa"
+---
+# 8. Allow search-service from userservice and feed-edge-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: search-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: search-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/userservice-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/feed-edge-service-sa"
+---
+# 9. Allow video-abr-service from userservice-edge
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: video-abr-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: video-abr-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/userservice-edge-sa"]
+---
+# 10. Allow feed-edge-service from apollo-router
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: feed-edge-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: feed-edge-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/apollo-router-sa"]
+---
+# 11. Allow feedservice from feed-edge-service and video-abr-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: feedservice-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: feedservice
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/feed-edge-service-sa"
+        - "cluster.local/ns/{{ $.Release.Namespace | default "default" }}/sa/video-abr-service-sa"
+---
+# 12. Allow chat-edge-service from apollo-router
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: chat-edge-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: chat-edge-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/apollo-router-sa"]
+---
+# 13. Allow chat-service from chat-edge-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: chat-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: chat-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/chat-edge-service-sa"]
+---
+# 14. Allow mqtt-broker from chat-service and ingress
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: mqtt-broker-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: mqtt-broker
+  action: ALLOW
+  rules:
+  # Allow chat-service to communicate over standard MQTT (1883)
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/chat-service-sa"]
+    to:
+    - operation:
+        ports: ["1883"]
+  # Allow public/ingress traffic to connect to websocket listener (9002) for real-time chat clients
+  - to:
+    - operation:
+        ports: ["9002"]
+---
+# 15. Allow linkguard-service from feedservice and apollo-router
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: linkguard-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: linkguard-service
+  action: ALLOW
+  rules:
+  # Allow apollo-router to access LinkGuard GraphQL schema endpoint
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/apollo-router-sa"]
+  # Allow feedservice to call LinkGuard HTTP REST moderation queue
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/feedservice-sa"]
+---
+# 16. Allow feedservice from linkguard-worker
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: feedservice-allow-from-linkguard
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: feedservice
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/linkguard-worker-sa"]
+---
+# 17. Allow inference-service from linkguard-worker and linkguard-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: inference-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: inference-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/linkguard-worker-sa"
+        - "cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/linkguard-service-sa"
+---
+# 18. Allow notificationservice from userservice, feedservice, socialgraph-service, and video-abr-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: notificationservice-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: notificationservice
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/userservice-sa"
+        - "cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/feedservice-sa"
+        - "cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/socialgraph-service-sa"
+        - "cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/video-abr-service-sa"
+---
+# 19. Allow analytics-service from public ingress
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: analytics-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: analytics-service
+  action: ALLOW
+  rules:
+  - {} # Open to public for frontend telemetry ingest
+---
+# 20. Allow recommend-service from public ingress and feed-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: recommend-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: recommend-service
+  action: ALLOW
+  rules:
+  - {} # Allow public telemetry pushes and internal feed-service reads
+{{- end }}

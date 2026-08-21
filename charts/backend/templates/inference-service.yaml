@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-service
+  labels:
+    app: inference-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inference-service
+  template:
+    metadata:
+      labels:
+        app: inference-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8000"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: inference-service-sa
+      {{- end }}
+      containers:
+        - name: inference-service
+          image: "{{ .Values.images.inferenceService.repository | default "ghcr.io/bmiazek18/facebook-clone1-inference-service" }}:{{ .Values.images.inferenceService.tag | default "latest" }}"
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            {{- toYaml .Values.inferenceResources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-service
+spec:
+  selector:
+    app: inference-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http

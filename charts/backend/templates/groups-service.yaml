@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: groups-service
+  labels:
+    app: groups-service
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: groups-service
+  template:
+    metadata:
+      labels:
+        app: groups-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9098"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: groups-service-sa
+      {{- end }}
+      containers:
+        - name: groups-service
+          image: "{{ .Values.images.groupsService.repository | default "ghcr.io/bmiazek18/facebook-clone1-groups-service" }}:{{ .Values.images.groupsService.tag | default "latest" }}"
+          ports:
+            - name: grpc
+              containerPort: 9098
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: VAULT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: VAULT_URI
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: VAULT_TOKEN
+            - name: FEED_SERVICE_GRPC_ADDRESS
+              value: "dns:///feedservice:9092"
+            - name: USER_SERVICE_GRPC_ADDRESS
+              value: "dns:///userservice:9090"
+            - name: SPRING_DATA_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATA_REDIS_HOST
+            - name: SPRING_DATA_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATA_REDIS_PORT
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx256m"
+          readinessProbe:
+            tcpSocket:
+              port: grpc
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: grpc
+            initialDelaySeconds: 40
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: groups-service
+spec:
+  selector:
+    app: groups-service
+  ports:
+    - name: grpc
+      port: 9098
+      targetPort: grpc

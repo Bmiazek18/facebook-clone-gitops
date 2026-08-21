@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkguard-service
+  labels:
+    app: linkguard-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linkguard-service
+  template:
+    metadata:
+      labels:
+        app: linkguard-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8086"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: linkguard-service-sa
+      {{- end }}
+      containers:
+        - name: linkguard-service
+          image: "{{ .Values.images.linkguardService.repository | default "ghcr.io/bmiazek18/facebook-clone1-linkguard-service" }}:{{ .Values.images.linkguardService.tag | default "latest" }}"
+          ports:
+            - name: http
+              containerPort: 8086
+          env:
+            - name: CELERY_BROKER_URL
+              value: "redis://redis-master.apps.svc.cluster.local:6379/0"
+            - name: PLATFORM_BASE_URL
+              value: "http://localhost:8080"
+            - name: LINK_SHIM_SECRET
+              value: "super_secret_link_guard_key_2026"
+            - name: FEED_SERVICE_GRPC_ADDRESS
+              value: "feedservice:9092"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: linkguard-service
+spec:
+  selector:
+    app: linkguard-service
+  ports:
+    - name: http
+      port: 8086
+      targetPort: http

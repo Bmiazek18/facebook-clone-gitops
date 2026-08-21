@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkguard-worker
+  labels:
+    app: linkguard-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linkguard-worker
+  template:
+    metadata:
+      labels:
+        app: linkguard-worker
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: linkguard-worker-sa
+      {{- end }}
+      containers:
+        - name: linkguard-worker
+          image: "{{ .Values.images.linkguardService.repository | default "ghcr.io/bmiazek18/facebook-clone1-linkguard-service" }}:{{ .Values.images.linkguardService.tag | default "latest" }}"
+          command: ["celery", "-A", "worker.worker", "worker", "--loglevel=INFO"]
+          env:
+            - name: CELERY_BROKER_URL
+              value: "redis://redis-master.apps.svc.cluster.local:6379/0"
+            - name: FEED_SERVICE_GRPC_ADDRESS
+              value: "feedservice:9092"
+            - name: INFERENCE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: INFERENCE_SERVICE_URL
+          resources:
+            {{- toYaml .Values.linkguardWorkerResources | nindent 12 }}

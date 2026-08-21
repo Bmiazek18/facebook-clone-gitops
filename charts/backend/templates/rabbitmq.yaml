@@ -1,0 +1,25 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+  namespace: apps
+spec:
+  # Liczba węzłów (ustaw na 3 dla środowiska produkcyjnego / High Availability)
+  replicas: 1
+  
+  # Wymuszenie konkretnego obrazu z panelem management
+  image: rabbitmq:3.13-management
+  
+  # Zasoby skopiowane z Twojego manifestu
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi 
+    limits:
+      cpu: 500m
+      memory: 512Mi
+      
+  # Konfiguracja dysku (PVC)
+  persistence:
+    storageClassName: local-path
+    storage: 2Gi
