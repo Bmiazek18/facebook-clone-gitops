@@ -13,7 +13,6 @@ keycloak:
     limits:
       cpu: "1000m"
       memory: "1024Mi"
-  
 database:
   image: "postgres:16-alpine"
   name: "keycloak"
@@ -28,9 +27,11 @@ database:
     limits:
       cpu: "500m"
       memory: "512Mi"
-
 mailpit:
   enabled: true
   image: "axllent/mailpit:latest"
   smtpPort: 1025
   uiPort: 8025
+image:
+  repository: ghcr.io/bmiazek18/facebook-clone-keycloak
+  tag: b4dd7e8bb4a79ecfe8186a16d9bb6ec7cdd42897
