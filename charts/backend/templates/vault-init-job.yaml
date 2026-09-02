@@ -4,6 +4,7 @@ metadata:
   name: vault-init
   namespace: apps
   annotations:
+    argocd.argoproj.io/sync-wave: "3"
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:

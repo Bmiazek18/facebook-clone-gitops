@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  name: meta-ai-service
+  labels:
+    app: meta-ai-service
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: meta-ai-service
+  template:
+    metadata:
+      labels:
+        app: meta-ai-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8000"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: meta-ai-service-sa
+      {{- end }}
+      containers:
+        - name: meta-ai-service
+          image: "{{ .Values.images.metaAiService.repository | default "ghcr.io/bmiazek18/facebook-clone1-meta-ai-service" }}:{{ .Values.images.metaAiService.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy | default "IfNotPresent" }}
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: OLLAMA_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OLLAMA_BASE_URL
+            - name: OLLAMA_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OLLAMA_MODEL
+            - name: INFERENCE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: INFERENCE_SERVICE_URL
+            - name: ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SENTRY_ENVIRONMENT
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: SENTRY_DSN
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
+            - name: LANGFUSE_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: LANGFUSE_PUBLIC_KEY
+                  optional: true
+            - name: LANGFUSE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: LANGFUSE_SECRET_KEY
+                  optional: true
+            - name: LANGFUSE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: LANGFUSE_HOST
+                  optional: true
+            - name: CHROMA_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: CHROMA_HOST
+                  optional: true
+            - name: CHROMA_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: CHROMA_PORT
+                  optional: true
+
+          volumeMounts:
+            - name: meta-ai-data
+              mountPath: /app/rag
+          resources:
+            {{- toYaml .Values.metaAiResources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /chat-threads
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /chat-threads
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: meta-ai-data
+          {{- if .Values.metaAiPersistence.enabled }}
+          persistentVolumeClaim:
+            claimName: meta-ai-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  name: meta-ai-service
+  labels:
+    app: meta-ai-service
+spec:
+  type: ClusterIP
+  selector:
+    app: meta-ai-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
+{{- if .Values.metaAiPersistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  name: meta-ai-pvc
+spec:
+  accessModes:
+    - {{ .Values.metaAiPersistence.accessMode | default "ReadWriteOnce" | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.metaAiPersistence.size | default "10Gi" }}
+  {{- if .Values.metaAiPersistence.storageClass }}
+  storageClassName: {{ .Values.metaAiPersistence.storageClass }}
+  {{- end }}
+{{- end }}

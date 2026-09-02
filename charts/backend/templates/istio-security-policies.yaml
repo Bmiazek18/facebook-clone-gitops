@@ -3,6 +3,8 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: deny-all
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -12,6 +14,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: apollo-router-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -26,6 +30,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: tusd-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -40,6 +46,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: userservice-edge-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -56,6 +64,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: socialgraph-edge-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -72,6 +82,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: userservice-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -96,6 +108,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: socialgraph-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -116,6 +130,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: search-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -134,6 +150,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: video-abr-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -150,6 +168,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: feed-edge-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -166,6 +186,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: feedservice-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -184,6 +206,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: chat-edge-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -200,6 +224,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: chat-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -216,6 +242,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: mqtt-broker-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -240,6 +268,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: linkguard-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -261,6 +291,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: feedservice-allow-from-linkguard
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -277,6 +309,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: inference-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -295,6 +329,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: notificationservice-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -315,6 +351,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: analytics-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -329,6 +367,8 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: recommend-service-allow
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -338,4 +378,40 @@ spec:
   action: ALLOW
   rules:
   - {} # Allow public telemetry pushes and internal feed-service reads
+---
+# 21. Allow meta-ai-service from public ingress and internal services
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+  name: meta-ai-service-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: meta-ai-service
+  action: ALLOW
+  rules:
+  - {} # Allow client chat and RAG requests
+---
+# 22. Allow chroma vector database from meta-ai-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+  name: chroma-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: chroma
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/meta-ai-service-sa"]
 {{- end }}
+
+

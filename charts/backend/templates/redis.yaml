@@ -1,6 +1,8 @@
 apiVersion: redis.redis.opstreelabs.in/v1beta1
 kind: RedisReplication
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: redis
   namespace: apps
 spec:

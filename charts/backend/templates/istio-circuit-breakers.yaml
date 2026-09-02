@@ -2,6 +2,8 @@
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: default-mtls
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
@@ -13,6 +15,8 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
   name: {{ . }}-cb
   namespace: {{ $.Release.Namespace | default "default" }}
 spec:

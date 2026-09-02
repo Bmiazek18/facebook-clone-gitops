@@ -58,6 +58,12 @@ images:
   marketplaceEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone1-marketplace-edge-service
     tag: "latest"
+  metaAiService:
+    repository: ghcr.io/bmiazek18/facebook-clone1-meta-ai-service
+    tag: "latest"
+  chroma:
+    repository: chromadb/chroma
+    tag: "0.6.3"
 
 imagePullPolicy: IfNotPresent
 
@@ -89,6 +95,11 @@ config:
   OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector.observability:4317
   LINK_GUARD_SERVICE_URL: http://linkguard-service:8086
   INFERENCE_SERVICE_URL: http://inference-service:8000
+  OLLAMA_BASE_URL: "http://ollama-service.apps.svc.cluster.local:11434/v1"
+  OLLAMA_MODEL: "qwen2.5:7b"
+  LANGFUSE_HOST: "https://cloud.langfuse.com"
+  CHROMA_HOST: "chroma.apps.svc.cluster.local"
+  CHROMA_PORT: "8000"
   SENTRY_ENVIRONMENT: production
 
 secrets:
@@ -101,6 +112,8 @@ secrets:
   MINIO_SECRET_KEY: change-me
   SENTRY_DSN: ""
   SENTRY_TRACES_SAMPLE_RATE: "0.1"
+  LANGFUSE_PUBLIC_KEY: ""
+  LANGFUSE_SECRET_KEY: ""
 
 resources:
   requests:
@@ -136,5 +149,33 @@ inferenceResources:
     memory: 2Gi
     nvidia.com/gpu: "1"
 
+metaAiResources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+metaAiPersistence:
+  enabled: true
+  size: 10Gi
+  accessMode: ReadWriteOnce
+
+chromaResources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+chromaPersistence:
+  enabled: true
+  size: 10Gi
+  accessMode: ReadWriteOnce
+
 istio:
   enabled: false
+
+

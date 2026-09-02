@@ -1,6 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   name: backend-runtime-config
 data:
   SPRING_DATASOURCE_URL: {{ .Values.config.SPRING_DATASOURCE_URL | quote }}
@@ -25,4 +27,8 @@ data:
   LINK_GUARD_SERVICE_URL: {{ .Values.config.LINK_GUARD_SERVICE_URL | quote }}
   INFERENCE_SERVICE_URL: {{ .Values.config.INFERENCE_SERVICE_URL | quote }}
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.config.OTEL_EXPORTER_OTLP_ENDPOINT | quote }}
-
+  OLLAMA_BASE_URL: {{ .Values.config.OLLAMA_BASE_URL | default "http://ollama-service.apps.svc.cluster.local:11434/v1" | quote }}
+  OLLAMA_MODEL: {{ .Values.config.OLLAMA_MODEL | default "qwen2.5:7b" | quote }}
+  LANGFUSE_HOST: {{ .Values.config.LANGFUSE_HOST | default "https://cloud.langfuse.com" | quote }}
+  CHROMA_HOST: {{ .Values.config.CHROMA_HOST | default "chroma.apps.svc.cluster.local" | quote }}
+  CHROMA_PORT: {{ .Values.config.CHROMA_PORT | default "8000" | quote }}

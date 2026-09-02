@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
   name: marketplace-edge-service
   labels:
     app: marketplace-edge-service
@@ -50,6 +52,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
   name: marketplace-edge-service
 spec:
   selector:

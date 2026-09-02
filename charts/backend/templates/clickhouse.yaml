@@ -1,6 +1,8 @@
 apiVersion: clickhouse.com/v1alpha1
 kind: KeeperCluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: keeper-analytics
   namespace: {{ .Release.Namespace | default "apps" }}
 spec:
@@ -23,6 +25,8 @@ spec:
 apiVersion: clickhouse.com/v1alpha1
 kind: ClickHouseCluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: clickhouse-analytics
   namespace: {{ .Release.Namespace | default "apps" }}
 spec:

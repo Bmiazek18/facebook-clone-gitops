@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: neo4j
   namespace: apps
 spec:
@@ -89,6 +91,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: neo4j
   namespace: apps
 spec:
@@ -107,6 +111,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: neo4j-credentials
   namespace: apps
 type: Opaque

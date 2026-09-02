@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   name: socialgraph-service
   labels:
     app: socialgraph-service
@@ -82,6 +84,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   name: socialgraph-service
 spec:
   selector:

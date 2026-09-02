@@ -1,6 +1,8 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: rabbitmq
   namespace: apps
 spec:

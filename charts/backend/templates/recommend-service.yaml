@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   name: recommend-service
   labels:
     app: recommend-service
@@ -69,6 +71,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   name: recommend-service
 spec:
   selector:

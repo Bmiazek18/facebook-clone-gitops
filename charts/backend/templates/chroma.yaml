@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: chroma
+  labels:
+    app: chroma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chroma
+  template:
+    metadata:
+      labels:
+        app: chroma
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: chroma-sa
+      {{- end }}
+      containers:
+        - name: chroma
+          image: "{{ .Values.images.chroma.repository | default "chromadb/chroma" }}:{{ .Values.images.chroma.tag | default "0.6.3" }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy | default "IfNotPresent" }}
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: IS_PERSISTENT
+              value: "TRUE"
+            - name: PERSISTENCE_DIRECTORY
+              value: "/chroma/chroma"
+            - name: ANONYMIZED_TELEMETRY
+              value: "FALSE"
+          volumeMounts:
+            - name: chroma-data
+              mountPath: /chroma/chroma
+          resources:
+            {{- toYaml .Values.chromaResources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /api/v1/heartbeat
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/heartbeat
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      volumes:
+        - name: chroma-data
+          {{- if .Values.chromaPersistence.enabled }}
+          persistentVolumeClaim:
+            claimName: chroma-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: chroma
+  labels:
+    app: chroma
+spec:
+  type: ClusterIP
+  selector:
+    app: chroma
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
+{{- if .Values.chromaPersistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: chroma-pvc
+spec:
+  accessModes:
+    - {{ .Values.chromaPersistence.accessMode | default "ReadWriteOnce" | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.chromaPersistence.size | default "10Gi" }}
+  {{- if .Values.chromaPersistence.storageClass }}
+  storageClassName: {{ .Values.chromaPersistence.storageClass }}
+  {{- end }}
+{{- end }}

@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
   name: apollo-router
   labels:
     app: apollo-router
@@ -65,6 +67,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
   name: apollo-router
 spec:
   type: ClusterIP

@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: jaeger
   namespace: {{ .Values.namespace | default "apps" }}
   labels:
@@ -39,6 +41,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: jaeger
   namespace: {{ .Values.namespace | default "apps" }}
   labels:

@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: meilisearch
   namespace: apps
   labels:
@@ -52,6 +54,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: meilisearch
   namespace: apps
 spec:

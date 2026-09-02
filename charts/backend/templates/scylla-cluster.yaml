@@ -1,6 +1,8 @@
 apiVersion: scylla.scylladb.com/v1
 kind: ScyllaCluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: scylla-cluster
   namespace: {{ .Release.Namespace | default "default" }}
 spec:

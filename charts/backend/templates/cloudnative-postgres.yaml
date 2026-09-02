@@ -1,6 +1,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgres-user
   namespace: apps
 spec:
@@ -84,6 +86,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgres-secret
   namespace: apps
 type: Opaque
@@ -94,6 +98,8 @@ stringData:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgresql-user
   namespace: apps
 spec:
@@ -109,6 +115,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgresql-user-rw
   namespace: apps
 spec:
@@ -125,6 +133,8 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgres-notifications
   namespace: apps
 spec:
@@ -195,6 +205,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgres-notifications-secret
   namespace: apps
 type: Opaque
@@ -205,6 +217,8 @@ stringData:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgresql-notifications
   namespace: apps
 spec:
@@ -220,6 +234,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgresql-notifications-rw
   namespace: apps
 spec:
@@ -235,6 +251,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgres-feed-secret
   namespace: apps
 type: Opaque
@@ -244,6 +262,8 @@ stringData:
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgres-feed
   namespace: apps
 spec:
@@ -296,6 +316,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgresql-feed
   namespace: apps
 spec:
@@ -310,6 +332,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: postgresql-feed-rw
   namespace: apps
 spec:

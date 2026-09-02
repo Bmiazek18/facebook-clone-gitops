@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
   name: chat-edge-service
   labels:
     app: chat-edge-service
@@ -84,6 +86,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
   name: chat-edge-service
 spec:
   selector:

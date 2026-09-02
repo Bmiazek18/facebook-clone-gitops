@@ -1,6 +1,8 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: kafka
   namespace: {{ .Release.Namespace | default "default" }}
 spec:
