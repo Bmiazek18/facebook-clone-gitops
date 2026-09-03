@@ -123,12 +123,12 @@ spec:
 
           readinessProbe:
             grpc:
-              port: grpc
+              port: 9090
             initialDelaySeconds: 20
             periodSeconds: 10
           livenessProbe:
             grpc:
-              port: grpc
+              port: 9090
             initialDelaySeconds: 40
             periodSeconds: 20
           resources:

@@ -82,12 +82,12 @@ spec:
               value: -Xms64m -Xmx128m
           readinessProbe:
             grpc:
-              port: grpc
+              port: 9097
             initialDelaySeconds: 15
             periodSeconds: 10
           livenessProbe:
             grpc:
-              port: grpc
+              port: 9097
             initialDelaySeconds: 30
             periodSeconds: 20
           resources:
