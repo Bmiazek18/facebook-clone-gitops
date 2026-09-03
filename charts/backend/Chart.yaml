@@ -14,3 +14,7 @@ dependencies:
     version: "0.0.1"
     repository: "oci://ghcr.io/clickhouse"
     alias: clickhouse-operator
+  - name: strimzi-kafka-operator
+    version: "0.45.0"
+    repository: "https://strimzi.io/charts/"
+    alias: strimzi-kafka-operator

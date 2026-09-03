@@ -216,7 +216,7 @@ data:
               },
               "editorMode": "code",
               "expr": "sum(jvm_memory_used_bytes{area=\"heap\"}) by (job)",
-              "legendFormat": "{{job}}",
+              "legendFormat": "{{ `{{job}}` }}",
               "range": true
             }
           ],
@@ -252,7 +252,7 @@ data:
               },
               "editorMode": "code",
               "expr": "sum(rate(http_server_requests_seconds_count[5m])) by (job)",
-              "legendFormat": "{{job}}",
+              "legendFormat": "{{ `{{job}}` }}",
               "range": true
             }
           ],
