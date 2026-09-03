@@ -11,7 +11,7 @@ spec:
       default/password: {{ .Values.secrets.CLICKHOUSE_PASSWORD | default "default_password" | quote }}
       default/networks/ip: "::/0"
     clusters:
-      - name: "analytics-cluster"
+      - name: "analytics"
         layout:
           shardsCount: 1
           replicasCount: 1
