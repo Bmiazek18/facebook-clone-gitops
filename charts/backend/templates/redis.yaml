@@ -22,6 +22,8 @@ spec:
       maxmemory-policy allkeys-lru
   redisExporter:
     enabled: true             # Gotowe metryki do Grafany bez dodatkowego konfigurowania
+    image: "quay.io/opstree/redis-exporter:v1.67.0"
+    imagePullPolicy: IfNotPresent
   storage:
     volumeClaimTemplate:
       spec:
