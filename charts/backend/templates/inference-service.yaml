@@ -25,7 +25,7 @@ spec:
       {{- end }}
       containers:
         - name: inference-service
-          image: "{{ .Values.images.inferenceService.repository | default "ghcr.io/bmiazek18/facebook-clone1-inference-service" }}:{{ .Values.images.inferenceService.tag | default "latest" }}"
+          image: "{{ .Values.images.inferenceService.repository | default "ghcr.io/bmiazek18/facebook-clone-inference-service" }}:{{ .Values.images.inferenceService.tag | default "latest" }}"
           ports:
             - name: http
               containerPort: 8000

@@ -24,7 +24,7 @@ spec:
       {{- end }}
       containers:
         - name: groups-service
-          image: "{{ .Values.images.groupsService.repository | default "ghcr.io/bmiazek18/facebook-clone1-groups-service" }}:{{ .Values.images.groupsService.tag | default "latest" }}"
+          image: "{{ .Values.images.groupsService.repository | default "ghcr.io/bmiazek18/facebook-clone-groups-service" }}:{{ .Values.images.groupsService.tag | default "latest" }}"
           ports:
             - name: grpc
               containerPort: 9098

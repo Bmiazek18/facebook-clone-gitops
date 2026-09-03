@@ -21,7 +21,7 @@ spec:
       {{- end }}
       containers:
         - name: linkguard-worker
-          image: "{{ .Values.images.linkguardService.repository | default "ghcr.io/bmiazek18/facebook-clone1-linkguard-service" }}:{{ .Values.images.linkguardService.tag | default "latest" }}"
+          image: "{{ .Values.images.linkguardService.repository | default "ghcr.io/bmiazek18/facebook-clone-linkguard-service" }}:{{ .Values.images.linkguardService.tag | default "latest" }}"
           command: ["celery", "-A", "worker.worker", "worker", "--loglevel=INFO"]
           env:
             - name: CELERY_BROKER_URL

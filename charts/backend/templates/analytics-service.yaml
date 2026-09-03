@@ -25,7 +25,7 @@ spec:
       {{- end }}
       containers:
         - name: analytics-service
-          image: "{{ .Values.images.analyticsService.repository | default "ghcr.io/bmiazek18/facebook-clone1-analytics-service" }}:{{ .Values.images.analyticsService.tag | default "latest" }}"
+          image: "{{ .Values.images.analyticsService.repository | default "ghcr.io/bmiazek18/facebook-clone-analytics-service" }}:{{ .Values.images.analyticsService.tag | default "latest" }}"
           ports:
             - name: http
               containerPort: 8095

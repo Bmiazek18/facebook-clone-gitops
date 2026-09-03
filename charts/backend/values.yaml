@@ -2,64 +2,64 @@ replicaCount: 1
 
 images:
   userService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-user-service
+    repository: ghcr.io/bmiazek18/facebook-clone-user-service
     tag: "latest"
   userEdgeService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-user-edge-service
+    repository: ghcr.io/bmiazek18/facebook-clone-user-edge-service
     tag: "latest"
   socialgraphService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-socialgraph-service
+    repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-service
     tag: "latest"
   socialgraphEdgeService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-socialgraph-edge-service
+    repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-edge-service
     tag: "latest"
   videoAbrService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-video-abr-service
+    repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
     tag: "latest"
   searchService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-search-service
+    repository: ghcr.io/bmiazek18/facebook-clone-search-service
     tag: "latest"
   notificationService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-notification-service
+    repository: ghcr.io/bmiazek18/facebook-clone-notification-service
     tag: "latest"
   apolloRouter:
     repository: ghcr.io/apollographql/router
     tag: "v2.17.0"
   feedService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-feed-service
+    repository: ghcr.io/bmiazek18/facebook-clone-feed-service
     tag: "latest"
   feedEdgeService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-feed-edge-service
+    repository: ghcr.io/bmiazek18/facebook-clone-feed-edge-service
     tag: "latest"
   chatService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-chat-service
+    repository: ghcr.io/bmiazek18/facebook-clone-chat-service
     tag: "latest"
   chatEdgeService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-chat-edge-service
+    repository: ghcr.io/bmiazek18/facebook-clone-chat-edge-service
     tag: "latest"
   linkguardService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-linkguard-service
+    repository: ghcr.io/bmiazek18/facebook-clone-linkguard-service
     tag: "latest"
   inferenceService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-inference-service
+    repository: ghcr.io/bmiazek18/facebook-clone-inference-service
     tag: "latest"
   analyticsService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-analytics-service
+    repository: ghcr.io/bmiazek18/facebook-clone-analytics-service
     tag: "latest"
   recommendService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-recommend-service
+    repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
     tag: "latest"
   groupsService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-groups-service
+    repository: ghcr.io/bmiazek18/facebook-clone-groups-service
     tag: "latest"
   marketplaceService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-marketplace-service
+    repository: ghcr.io/bmiazek18/facebook-clone-marketplace-service
     tag: "latest"
   marketplaceEdgeService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-marketplace-edge-service
+    repository: ghcr.io/bmiazek18/facebook-clone-marketplace-edge-service
     tag: "latest"
   metaAiService:
-    repository: ghcr.io/bmiazek18/facebook-clone1-meta-ai-service
+    repository: ghcr.io/bmiazek18/facebook-clone-meta-ai-service
     tag: "latest"
   chroma:
     repository: chromadb/chroma

@@ -25,7 +25,7 @@ spec:
       {{- end }}
       containers:
         - name: notificationservice
-          image: "{{ .Values.images.notificationService.repository | default "ghcr.io/bmiazek18/facebook-clone1-notification-service" }}:{{ .Values.images.notificationService.tag | default "latest" }}"
+          image: "{{ .Values.images.notificationService.repository | default "ghcr.io/bmiazek18/facebook-clone-notification-service" }}:{{ .Values.images.notificationService.tag | default "latest" }}"
           ports:
             - name: http
               containerPort: 8083

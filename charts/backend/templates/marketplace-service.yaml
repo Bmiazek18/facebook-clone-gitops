@@ -25,7 +25,7 @@ spec:
       {{- end }}
       containers:
         - name: marketplace-service
-          image: "{{ .Values.images.marketplaceService.repository | default "ghcr.io/bmiazek18/facebook-clone1-marketplace-service" }}:{{ .Values.images.marketplaceService.tag | default "latest" }}"
+          image: "{{ .Values.images.marketplaceService.repository | default "ghcr.io/bmiazek18/facebook-clone-marketplace-service" }}:{{ .Values.images.marketplaceService.tag | default "latest" }}"
           ports:
             - name: http
               containerPort: 8090

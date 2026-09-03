@@ -25,7 +25,7 @@ spec:
       {{- end }}
       containers:
         - name: recommend-service
-          image: "{{ .Values.images.recommendService.repository | default "ghcr.io/bmiazek18/facebook-clone1-recommend-service" }}:{{ .Values.images.recommendService.tag | default "latest" }}"
+          image: "{{ .Values.images.recommendService.repository | default "ghcr.io/bmiazek18/facebook-clone-recommend-service" }}:{{ .Values.images.recommendService.tag | default "latest" }}"
           ports:
             - name: http
               containerPort: 8096

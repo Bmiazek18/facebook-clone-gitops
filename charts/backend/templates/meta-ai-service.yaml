@@ -25,7 +25,7 @@ spec:
       {{- end }}
       containers:
         - name: meta-ai-service
-          image: "{{ .Values.images.metaAiService.repository | default "ghcr.io/bmiazek18/facebook-clone1-meta-ai-service" }}:{{ .Values.images.metaAiService.tag | default "latest" }}"
+          image: "{{ .Values.images.metaAiService.repository | default "ghcr.io/bmiazek18/facebook-clone-meta-ai-service" }}:{{ .Values.images.metaAiService.tag | default "latest" }}"
           imagePullPolicy: {{ .Values.imagePullPolicy | default "IfNotPresent" }}
           ports:
             - name: http
