@@ -20,6 +20,7 @@ spec:
         prometheus.io/path: "/metrics"
         prometheus.io/port: "2001"
     spec:
+      enableServiceLinks: false
       containers:
       - name: neo4j
         image: neo4j:5-community
@@ -43,6 +44,8 @@ spec:
             secretKeyRef:
               name: neo4j-credentials
               key: auth
+        - name: NEO4J_server_config_strict__validation_enabled
+          value: "false"
         - name: NEO4J_server_memory_pagecache_size
           value: "512m"
         - name: NEO4J_server_memory_heap_initial__size
