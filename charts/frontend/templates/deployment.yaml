@@ -31,17 +31,23 @@ spec:
               value: {{ .Values.apiUrl | quote }}
             - name: NUXT_PUBLIC_MQTT_URL
               value: {{ .Values.mqttUrl | quote }}
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "0"
             - name: REDIS_HOST
-              value: {{ .Values.redis.host | default "redis-master.apps.svc.cluster.local" | quote }}
+              value: {{ .Values.redis.host | default "redis.apps.svc.cluster.local" | quote }}
             - name: REDIS_PORT
               value: {{ .Values.redis.port | default "6379" | quote }}
             - name: REDIS_URL
-              value: {{ .Values.redis.url | default "redis://redis-master.apps.svc.cluster.local:6379" | quote }}
+              value: {{ .Values.redis.url | default "redis://redis.apps.svc.cluster.local:6379" | quote }}
             - name: NUXT_REDIS_HOST
-              value: {{ .Values.redis.host | default "redis-master.apps.svc.cluster.local" | quote }}
+              value: {{ .Values.redis.host | default "redis.apps.svc.cluster.local" | quote }}
             - name: NUXT_REDIS_PORT
               value: {{ .Values.redis.port | default "6379" | quote }}
             - name: NUXT_REDIS_URL
-              value: {{ .Values.redis.url | default "redis://redis-master.apps.svc.cluster.local:6379" | quote }}
+              value: {{ .Values.redis.url | default "redis://redis.apps.svc.cluster.local:6379" | quote }}
+            - name: NUXT_KEYCLOAK_URL
+              value: {{ .Values.keycloakUrl | quote }}
+            - name: KEYCLOAK_URL
+              value: {{ .Values.keycloakUrl | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
