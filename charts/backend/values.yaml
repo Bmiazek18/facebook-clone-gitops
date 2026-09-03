@@ -2,16 +2,16 @@ replicaCount: 1
 images:
   userService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-service
-    tag: "latest"
+    tag: "d9bf41e64eb090cc8ed7f48ab3725c2366b95700"
   userEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-edge-service
     tag: "latest"
   socialgraphService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-service
-    tag: "latest"
+    tag: "d9bf41e64eb090cc8ed7f48ab3725c2366b95700"
   socialgraphEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-edge-service
-    tag: "latest"
+    tag: "d9bf41e64eb090cc8ed7f48ab3725c2366b95700"
   videoAbrService:
     repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
     tag: "latest"
@@ -20,7 +20,7 @@ images:
     tag: "latest"
   notificationService:
     repository: ghcr.io/bmiazek18/facebook-clone-notification-service
-    tag: "latest"
+    tag: "d9bf41e64eb090cc8ed7f48ab3725c2366b95700"
   apolloRouter:
     repository: ghcr.io/apollographql/router
     tag: "v2.17.0"
