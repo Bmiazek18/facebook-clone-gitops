@@ -20,3 +20,9 @@ keycloakUrl: "https://auth.lab-bm.com"
 frontendUrl: "https://lab-bm.com"
 apiUrl: "https://api.lab-bm.com"
 mqttUrl: "ws://localhost:8080/mqtt"
+
+redis:
+  host: "redis-master.apps.svc.cluster.local"
+  port: "6379"
+  url: "redis://redis-master.apps.svc.cluster.local:6379"
+
