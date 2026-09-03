@@ -12,6 +12,9 @@ spec:
       default/networks/ip: "::/0"
     clusters:
       - name: "analytics"
+        templates:
+          podTemplate: clickhouse-pod-template
+          dataVolumeClaimTemplate: data-volume-template
         layout:
           shardsCount: 1
           replicasCount: 1
