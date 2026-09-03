@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: vllm
+  labels:
+    app: vllm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      {{- if .Values.istio.enabled }}
+      serviceAccountName: vllm-sa
+      {{- end }}
+      containers:
+        - name: vllm
+          image: "{{ .Values.images.vllm.repository | default "vllm/vllm-openai" }}:{{ .Values.images.vllm.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy | default "IfNotPresent" }}
+          command:
+            - python3
+            - -m
+            - vllm.entrypoints.openai.api_server
+          args:
+            - "--model"
+            - {{ .Values.config.OLLAMA_MODEL | default "Qwen/Qwen2.5-7B-Instruct" | quote }}
+            - "--host"
+            - "0.0.0.0"
+            - "--port"
+            - "8000"
+            - "--trust-remote-code"
+            - "--gpu-memory-utilization"
+            - {{ .Values.vllmGpuMemoryUtilization | default "0.90" | quote }}
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: HUGGING_FACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: HUGGING_FACE_HUB_TOKEN
+                  optional: true
+          volumeMounts:
+            - name: model-cache
+              mountPath: /root/.cache/huggingface
+            - name: dshm
+              mountPath: /dev/shm
+          resources:
+            {{- toYaml .Values.vllmResources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 5
+      volumes:
+        - name: model-cache
+          {{- if .Values.vllmPersistence.enabled }}
+          persistentVolumeClaim:
+            claimName: vllm-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: vllm-service
+  labels:
+    app: vllm
+spec:
+  type: ClusterIP
+  selector:
+    app: vllm
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
+{{- if .Values.vllmPersistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: vllm-pvc
+spec:
+  accessModes:
+    - {{ .Values.vllmPersistence.accessMode | default "ReadWriteOnce" | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.vllmPersistence.size | default "40Gi" }}
+  storageClassName: {{ .Values.vllmPersistence.storageClass | default "local-path" }}
+{{- end }}

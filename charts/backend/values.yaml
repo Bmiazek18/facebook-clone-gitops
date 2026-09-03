@@ -63,6 +63,9 @@ images:
   chroma:
     repository: chromadb/chroma
     tag: "0.6.3"
+  vllm:
+    repository: vllm/vllm-openai
+    tag: "latest"
 imagePullPolicy: IfNotPresent
 apiHost: "api.lab-bm.com"
 keycloakJwksUrl: "http://keycloak-service:8080/realms/myrealm/protocol/openid-connect/certs"
@@ -91,8 +94,8 @@ config:
   OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector.observability:4317
   LINK_GUARD_SERVICE_URL: http://linkguard-service:8086
   INFERENCE_SERVICE_URL: http://inference-service:8000
-  OLLAMA_BASE_URL: "http://ollama-service.apps.svc.cluster.local:11434/v1"
-  OLLAMA_MODEL: "qwen2.5:7b"
+  OLLAMA_BASE_URL: "http://vllm-service.apps.svc.cluster.local:8000/v1"
+  OLLAMA_MODEL: "Qwen/Qwen2.5-7B-Instruct"
   LANGFUSE_HOST: "https://cloud.langfuse.com"
   CHROMA_HOST: "chroma.apps.svc.cluster.local"
   CHROMA_PORT: "8000"
@@ -123,7 +126,6 @@ videoAbrResources:
   limits:
     cpu: 1000m
     memory: 1Gi
-    nvidia.com/gpu: "1"
 linkguardWorkerResources:
   requests:
     cpu: 50m
@@ -161,6 +163,20 @@ chromaResources:
 chromaPersistence:
   enabled: true
   size: 10Gi
+  accessMode: ReadWriteOnce
+  storageClass: local-path
+vllmGpuMemoryUtilization: "0.90"
+vllmResources:
+  requests:
+    cpu: 500m
+    memory: 4Gi
+  limits:
+    cpu: 4000m
+    memory: 16Gi
+    nvidia.com/gpu: "1"
+vllmPersistence:
+  enabled: true
+  size: 40Gi
   accessMode: ReadWriteOnce
   storageClass: local-path
 istio:

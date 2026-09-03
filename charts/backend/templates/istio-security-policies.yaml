@@ -412,6 +412,24 @@ spec:
   - from:
     - source:
         principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/meta-ai-service-sa"]
+---
+# 23. Allow vllm service from meta-ai-service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+  name: vllm-allow
+  namespace: {{ .Release.Namespace | default "default" }}
+spec:
+  selector:
+    matchLabels:
+      app: vllm
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/{{ .Release.Namespace | default "default" }}/sa/meta-ai-service-sa"]
 {{- end }}
 
 
