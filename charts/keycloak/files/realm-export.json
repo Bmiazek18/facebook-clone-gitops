@@ -2598,6 +2598,7 @@
   },
   "users": [
     {
+      "id": "e1088d18-971c-4bbf-a6ea-b7692fc3f412",
       "username": "testuser",
       "enabled": true,
       "email": "testuser@lab-bm.com",
