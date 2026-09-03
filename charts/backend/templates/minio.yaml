@@ -7,6 +7,11 @@ metadata:
   namespace: apps
 type: Opaque
 stringData:
+  config.env: |-
+    export MINIO_ROOT_USER={{ .Values.secrets.MINIO_ACCESS_KEY | quote }}
+    export MINIO_ROOT_PASSWORD={{ .Values.secrets.MINIO_SECRET_KEY | quote }}
+  rootUser: {{ .Values.secrets.MINIO_ACCESS_KEY | quote }}
+  rootPassword: {{ .Values.secrets.MINIO_SECRET_KEY | quote }}
   accesskey: {{ .Values.secrets.MINIO_ACCESS_KEY | quote }}
   secretkey: {{ .Values.secrets.MINIO_SECRET_KEY | quote }}
 
