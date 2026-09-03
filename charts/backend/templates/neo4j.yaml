@@ -33,11 +33,11 @@ spec:
           name: metrics
         resources:
           requests:
-            cpu: 250m
-            memory: 1Gi
+            cpu: 100m
+            memory: 256Mi
           limits:
-            cpu: 2000m
-            memory: 2Gi
+            cpu: 1000m
+            memory: 1Gi
         env:
         - name: NEO4J_AUTH
           valueFrom:

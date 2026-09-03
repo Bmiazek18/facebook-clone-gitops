@@ -117,16 +117,16 @@ secrets:
 
 resources:
   requests:
-    cpu: 100m
-    memory: 256Mi
+    cpu: 50m
+    memory: 64Mi
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 256Mi
 
 videoAbrResources:
   requests:
-    cpu: 200m
-    memory: 512Mi
+    cpu: 100m
+    memory: 128Mi
   limits:
     cpu: 1000m
     memory: 1Gi
@@ -134,16 +134,16 @@ videoAbrResources:
 
 linkguardWorkerResources:
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 50m
+    memory: 64Mi
   limits:
     cpu: 300m
     memory: 256Mi
 
 inferenceResources:
   requests:
-    cpu: 200m
-    memory: 512Mi
+    cpu: 100m
+    memory: 128Mi
   limits:
     cpu: 1000m
     memory: 2Gi
@@ -151,11 +151,11 @@ inferenceResources:
 
 metaAiResources:
   requests:
-    cpu: 250m
-    memory: 512Mi
+    cpu: 100m
+    memory: 128Mi
   limits:
     cpu: 1000m
-    memory: 2Gi
+    memory: 1Gi
 
 metaAiPersistence:
   enabled: true
@@ -164,11 +164,11 @@ metaAiPersistence:
 
 chromaResources:
   requests:
-    cpu: 200m
-    memory: 512Mi
+    cpu: 100m
+    memory: 128Mi
   limits:
     cpu: 1000m
-    memory: 2Gi
+    memory: 1Gi
 
 chromaPersistence:
   enabled: true
