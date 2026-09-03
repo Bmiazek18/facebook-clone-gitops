@@ -1,5 +1,4 @@
 replicaCount: 1
-
 images:
   userService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-service
@@ -64,12 +63,9 @@ images:
   chroma:
     repository: chromadb/chroma
     tag: "0.6.3"
-
 imagePullPolicy: IfNotPresent
-
 apiHost: "api.lab-bm.com"
 keycloakJwksUrl: "http://keycloak-service:8080/realms/myrealm/protocol/openid-connect/certs"
-
 config:
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql-user.apps.svc.cluster.local:5432/users_db
   NOTIFICATION_DATASOURCE_URL: jdbc:postgresql://postgresql-notifications.apps.svc.cluster.local:5432/notifications_db
@@ -101,7 +97,6 @@ config:
   CHROMA_HOST: "chroma.apps.svc.cluster.local"
   CHROMA_PORT: "8000"
   SENTRY_ENVIRONMENT: production
-
 secrets:
   SPRING_DATASOURCE_USERNAME: postgres
   SPRING_DATASOURCE_PASSWORD: change-me
@@ -114,7 +109,6 @@ secrets:
   SENTRY_TRACES_SAMPLE_RATE: "0.1"
   LANGFUSE_PUBLIC_KEY: ""
   LANGFUSE_SECRET_KEY: ""
-
 resources:
   requests:
     cpu: 50m
@@ -122,7 +116,6 @@ resources:
   limits:
     cpu: 500m
     memory: 256Mi
-
 videoAbrResources:
   requests:
     cpu: 100m
@@ -131,7 +124,6 @@ videoAbrResources:
     cpu: 1000m
     memory: 1Gi
     nvidia.com/gpu: "1"
-
 linkguardWorkerResources:
   requests:
     cpu: 50m
@@ -139,7 +131,6 @@ linkguardWorkerResources:
   limits:
     cpu: 300m
     memory: 256Mi
-
 inferenceResources:
   requests:
     cpu: 100m
@@ -148,7 +139,6 @@ inferenceResources:
     cpu: 1000m
     memory: 2Gi
     nvidia.com/gpu: "1"
-
 metaAiResources:
   requests:
     cpu: 100m
@@ -156,12 +146,10 @@ metaAiResources:
   limits:
     cpu: 1000m
     memory: 1Gi
-
 metaAiPersistence:
   enabled: true
   size: 10Gi
   accessMode: ReadWriteOnce
-
 chromaResources:
   requests:
     cpu: 100m
@@ -169,13 +157,17 @@ chromaResources:
   limits:
     cpu: 1000m
     memory: 1Gi
-
 chromaPersistence:
   enabled: true
   size: 10Gi
   accessMode: ReadWriteOnce
-
 istio:
   enabled: false
-
-
+videoAbrService:
+  image:
+    repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
+    tag: ddf6f8771bf691112bbc151ad8363d7badb875ab
+recommendService:
+  image:
+    repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
+    tag: ddf6f8771bf691112bbc151ad8363d7badb875ab
