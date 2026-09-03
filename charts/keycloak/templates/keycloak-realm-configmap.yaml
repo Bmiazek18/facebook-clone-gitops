@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: keycloak-realm-config
+  namespace: {{ .Release.Namespace | default "apps" }}
+data:
+  realm-export.json: |
+    {{- if .Values.keycloak.realmJson }}
+{{ .Values.keycloak.realmJson | indent 4 }}
+    {{- else if .Files.Get "files/realm-export.json" }}
+{{ .Files.Get "files/realm-export.json" | indent 4 }}
+    {{- else }}
+    {
+      "realm": "myrealm",
+      "enabled": true,
+      "displayName": "Facebook Clone Realm",
+      "sslRequired": "external",
+      "registrationAllowed": true,
+      "loginWithEmailAllowed": true,
+      "duplicateEmailsAllowed": false,
+      "resetPasswordAllowed": true,
+      "editUsernameAllowed": false,
+      "rememberMe": true
+    }
+    {{- end }}

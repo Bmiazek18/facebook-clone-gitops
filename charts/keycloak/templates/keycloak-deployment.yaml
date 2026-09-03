@@ -22,6 +22,7 @@ spec:
           image: {{ .Values.keycloak.image }}
           args:
             - "start-dev"
+            - "--import-realm"
             - "--spi-action-token-handler-action-token-example-enabled=true"
             - "--spi-action-token-handler-action-token-example-hmac-secret={{ .Values.keycloak.actionTokenSecret }}"
           env:
@@ -58,6 +59,10 @@ spec:
             # Konfiguracja logów
             - name: KC_LOG_LEVEL
               value: "INFO,org.keycloak.cookie:ERROR"
+          volumeMounts:
+            - name: realm-config
+              mountPath: /opt/keycloak/data/import/realm-export.json
+              subPath: realm-export.json
           ports:
             - name: http
               containerPort: 8080
@@ -73,3 +78,7 @@ spec:
             initialDelaySeconds: 45
             periodSeconds: 15
             failureThreshold: 3
+      volumes:
+        - name: realm-config
+          configMap:
+            name: keycloak-realm-config
