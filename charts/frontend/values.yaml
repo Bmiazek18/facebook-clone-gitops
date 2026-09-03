@@ -1,7 +1,7 @@
 replicaCount: 2
 image:
   repository: ghcr.io/bmiazek18/facebook-clone-frontend
-  tag: "18fad3ec8076dcc570a548548ef65c1d56fc1b70"
+  tag: "40c4ef7f029d0c6624fc48008cc6bd654c0813f2"
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
@@ -20,13 +20,10 @@ keycloakUrl: "https://auth.lab-bm.com"
 keycloak:
   publicUrl: "https://auth.lab-bm.com"
   internalUrl: "http://keycloak-service.apps.svc.cluster.local:8080"
-
 frontendUrl: "https://lab-bm.com"
 apiUrl: "https://api.lab-bm.com"
 mqttUrl: "ws://localhost:8080/mqtt"
-
 redis:
   host: "redis.apps.svc.cluster.local"
   port: "6379"
   url: "redis://redis.apps.svc.cluster.local:6379"
-
