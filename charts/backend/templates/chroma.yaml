@@ -92,7 +92,5 @@ spec:
   resources:
     requests:
       storage: {{ .Values.chromaPersistence.size | default "10Gi" }}
-  {{- if .Values.chromaPersistence.storageClass }}
-  storageClassName: {{ .Values.chromaPersistence.storageClass }}
-  {{- end }}
+  storageClassName: {{ .Values.chromaPersistence.storageClass | default "local-path" }}
 {{- end }}

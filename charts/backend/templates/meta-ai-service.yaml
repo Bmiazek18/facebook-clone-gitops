@@ -148,7 +148,5 @@ spec:
   resources:
     requests:
       storage: {{ .Values.metaAiPersistence.size | default "10Gi" }}
-  {{- if .Values.metaAiPersistence.storageClass }}
-  storageClassName: {{ .Values.metaAiPersistence.storageClass }}
-  {{- end }}
+  storageClassName: {{ .Values.metaAiPersistence.storageClass | default "local-path" }}
 {{- end }}

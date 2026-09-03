@@ -150,6 +150,7 @@ metaAiPersistence:
   enabled: true
   size: 10Gi
   accessMode: ReadWriteOnce
+  storageClass: local-path
 chromaResources:
   requests:
     cpu: 100m
@@ -161,6 +162,7 @@ chromaPersistence:
   enabled: true
   size: 10Gi
   accessMode: ReadWriteOnce
+  storageClass: local-path
 istio:
   enabled: false
 videoAbrService:
