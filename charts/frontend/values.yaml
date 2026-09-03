@@ -22,7 +22,7 @@ apiUrl: "https://api.lab-bm.com"
 mqttUrl: "ws://localhost:8080/mqtt"
 
 redis:
-  host: "redis-master.apps.svc.cluster.local"
+  host: "redis.apps.svc.cluster.local"
   port: "6379"
-  url: "redis://redis-master.apps.svc.cluster.local:6379"
+  url: "redis://redis.apps.svc.cluster.local:6379"
 

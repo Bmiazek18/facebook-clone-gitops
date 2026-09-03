@@ -25,7 +25,7 @@ spec:
           command: ["celery", "-A", "worker.worker", "worker", "--loglevel=INFO"]
           env:
             - name: CELERY_BROKER_URL
-              value: "redis://redis-master.apps.svc.cluster.local:6379/0"
+              value: "redis://redis.apps.svc.cluster.local:6379/0"
             - name: FEED_SERVICE_GRPC_ADDRESS
               value: "feedservice:9092"
             - name: INFERENCE_SERVICE_URL

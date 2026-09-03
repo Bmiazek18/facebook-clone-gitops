@@ -47,7 +47,7 @@ spec:
                   name: backend-runtime-secrets
                   key: CLICKHOUSE_PASSWORD
             - name: REDIS_CONNECTION_STRING
-              value: "redis://redis-master.apps.svc.cluster.local:6379"
+              value: "redis://redis.apps.svc.cluster.local:6379"
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               valueFrom:
                 configMapKeyRef:

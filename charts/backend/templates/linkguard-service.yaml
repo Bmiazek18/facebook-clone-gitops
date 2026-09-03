@@ -31,7 +31,7 @@ spec:
               containerPort: 8086
           env:
             - name: CELERY_BROKER_URL
-              value: "redis://redis-master.apps.svc.cluster.local:6379/0"
+              value: "redis://redis.apps.svc.cluster.local:6379/0"
             - name: PLATFORM_BASE_URL
               value: "http://localhost:8080"
             - name: LINK_SHIM_SECRET

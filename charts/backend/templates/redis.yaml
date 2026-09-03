@@ -33,7 +33,7 @@ spec:
     additionalRedisConfig: redis-custom-config
   redisExporter:
     enabled: true             # Gotowe metryki do Grafany bez dodatkowego konfigurowania
-    image: "quay.io/opstree/redis-exporter:v1.67.0"
+    image: "oliver006/redis_exporter:v1.67.0"
     imagePullPolicy: IfNotPresent
   storage:
     volumeClaimTemplate:
