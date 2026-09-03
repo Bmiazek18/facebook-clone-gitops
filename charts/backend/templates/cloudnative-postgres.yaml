@@ -38,20 +38,6 @@ spec:
     size: 10Gi
     storageClass: local-path
   
-  monitoring:
-    enabled: true
-    customQueries:
-      - name: pg_stat_statements
-        query: |
-          SELECT
-            query,
-            calls,
-            mean_exec_time,
-            max_exec_time
-          FROM pg_stat_statements
-          ORDER BY mean_exec_time DESC
-          LIMIT 10
-  
   backup:
     retentionPolicy: "30d"
     barmanObjectStore:
@@ -77,10 +63,6 @@ spec:
     limits:
       cpu: 1000m
       memory: 1Gi
-  
-  nodeMaintenanceWindow:
-    inMaintenanceWindow: false
-    reusePVC: true
 
 ---
 apiVersion: v1
@@ -169,9 +151,6 @@ spec:
     size: 5Gi
     storageClass: local-path
   
-  monitoring:
-    enabled: true
-  
   backup:
     retentionPolicy: "7d"
     barmanObjectStore:
@@ -196,10 +175,6 @@ spec:
     limits:
       cpu: 500m
       memory: 512Mi
-  
-  nodeMaintenanceWindow:
-    inMaintenanceWindow: false
-    reusePVC: true
 
 ---
 apiVersion: v1
@@ -298,9 +273,6 @@ spec:
     size: 10Gi
     storageClass: local-path
   
-  monitoring:
-    enabled: true
-  
   resources:
     requests:
       cpu: 100m
@@ -308,10 +280,6 @@ spec:
     limits:
       cpu: 500m
       memory: 512Mi
-  
-  nodeMaintenanceWindow:
-    inMaintenanceWindow: false
-    reusePVC: true
 ---
 apiVersion: v1
 kind: Service

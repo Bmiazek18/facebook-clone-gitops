@@ -24,7 +24,8 @@ spec:
   credsSecret:
     name: minio-creds-secret
   pools:
-    - servers: 2              # 2 nodes for High Availability in the home-lab
+    - name: pool-0
+      servers: 2              # 2 nodes for High Availability in the home-lab
       volumesPerServer: 2     # 2 drives per node (giving 4 drives total, perfect for Erasure Coding parity)
       volumeClaimTemplate:
         spec:
