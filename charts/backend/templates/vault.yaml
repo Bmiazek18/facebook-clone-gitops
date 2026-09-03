@@ -41,7 +41,7 @@ spec:
       serviceAccountName: vault
       containers:
       - name: vault
-        image: vault:latest
+        image: hashicorp/vault:1.15.6
         args:
         - "server"
         - "-dev"
@@ -84,7 +84,7 @@ spec:
         fsGroup: 1000
       initContainers:
       - name: vault-config
-        image: vault:latest
+        image: hashicorp/vault:1.15.6
         command: ['cp', '-v', '/vault/config/config.hcl', '/vault/data/config.hcl']
         volumeMounts:
         - name: vault-config
