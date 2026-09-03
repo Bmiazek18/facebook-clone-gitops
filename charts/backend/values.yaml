@@ -171,3 +171,7 @@ recommendService:
   image:
     repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
     tag: ddf6f8771bf691112bbc151ad8363d7badb875ab
+notificationService:
+  image:
+    repository: ghcr.io/bmiazek18/facebook-clone-notification-service
+    tag: 99039fa8101d442e59155cda99a6325241558c9f
