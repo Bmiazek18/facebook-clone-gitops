@@ -17,6 +17,10 @@ resources:
     cpu: 500m
     memory: 384Mi
 keycloakUrl: "https://auth.lab-bm.com"
+keycloak:
+  publicUrl: "https://auth.lab-bm.com"
+  internalUrl: "http://keycloak-service.apps.svc.cluster.local:8080"
+
 frontendUrl: "https://lab-bm.com"
 apiUrl: "https://api.lab-bm.com"
 mqttUrl: "ws://localhost:8080/mqtt"

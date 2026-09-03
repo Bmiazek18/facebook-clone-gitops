@@ -24,15 +24,21 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           env:
             - name: NUXT_PUBLIC_KEYCLOAK_URL
-              value: {{ .Values.keycloakUrl | quote }}
+              value: {{ .Values.keycloak.publicUrl | default .Values.keycloakUrl | quote }}
+            - name: NUXT_KEYCLOAK_SERVER_URL
+              value: {{ .Values.keycloak.internalUrl | default "http://keycloak-service.apps.svc.cluster.local:8080" | quote }}
+            - name: NUXT_KEYCLOAK_INTERNAL_URL
+              value: {{ .Values.keycloak.internalUrl | default "http://keycloak-service.apps.svc.cluster.local:8080" | quote }}
+            - name: KEYCLOAK_SERVER_URL
+              value: {{ .Values.keycloak.internalUrl | default "http://keycloak-service.apps.svc.cluster.local:8080" | quote }}
+            - name: KEYCLOAK_INTERNAL_URL
+              value: {{ .Values.keycloak.internalUrl | default "http://keycloak-service.apps.svc.cluster.local:8080" | quote }}
             - name: NUXT_PUBLIC_FRONTEND_URL
               value: {{ .Values.frontendUrl | quote }}
             - name: NUXT_PUBLIC_API_URL
               value: {{ .Values.apiUrl | quote }}
             - name: NUXT_PUBLIC_MQTT_URL
               value: {{ .Values.mqttUrl | quote }}
-            - name: NODE_TLS_REJECT_UNAUTHORIZED
-              value: "0"
             - name: REDIS_HOST
               value: {{ .Values.redis.host | default "redis.apps.svc.cluster.local" | quote }}
             - name: REDIS_PORT
@@ -45,9 +51,5 @@ spec:
               value: {{ .Values.redis.port | default "6379" | quote }}
             - name: NUXT_REDIS_URL
               value: {{ .Values.redis.url | default "redis://redis.apps.svc.cluster.local:6379" | quote }}
-            - name: NUXT_KEYCLOAK_URL
-              value: {{ .Values.keycloakUrl | quote }}
-            - name: KEYCLOAK_URL
-              value: {{ .Values.keycloakUrl | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
