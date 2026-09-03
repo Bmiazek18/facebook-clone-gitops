@@ -175,3 +175,11 @@ notificationService:
   image:
     repository: ghcr.io/bmiazek18/facebook-clone-notification-service
     tag: 99039fa8101d442e59155cda99a6325241558c9f
+userService:
+  image:
+    repository: ghcr.io/bmiazek18/facebook-clone-user-service
+    tag: c629206b3e8eeebc7f4a81ed596eee50e69c60a8
+socialgraphService:
+  image:
+    repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-service
+    tag: c629206b3e8eeebc7f4a81ed596eee50e69c60a8
