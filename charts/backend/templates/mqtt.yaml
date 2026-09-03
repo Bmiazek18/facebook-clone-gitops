@@ -38,6 +38,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   name: mqtt-broker
+  namespace: {{ .Release.Namespace | default "apps" }}
   labels:
     app: mqtt-broker
 spec:
@@ -63,6 +64,9 @@ spec:
               containerPort: 9002
           volumeMounts:
             - name: config-volume
+              mountPath: /etc/mosquitto/mosquitto.conf
+              subPath: mosquitto.conf
+            - name: config-volume
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
             - name: data-volume
@@ -80,6 +84,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   name: mqtt-broker
+  namespace: {{ .Release.Namespace | default "apps" }}
 spec:
   selector:
     app: mqtt-broker
