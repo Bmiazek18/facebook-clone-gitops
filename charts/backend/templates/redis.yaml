@@ -17,8 +17,9 @@ spec:
         cpu: 500m
         memory: 512Mi
   redisConfig:
-    maxmemory: "384mb"
-    maxmemory-policy: "allkeys-lru"
+    additionalRedisConfig: |
+      maxmemory 384mb
+      maxmemory-policy allkeys-lru
   redisExporter:
     enabled: true             # Gotowe metryki do Grafany bez dodatkowego konfigurowania
   storage:
