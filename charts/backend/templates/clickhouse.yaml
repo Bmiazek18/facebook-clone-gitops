@@ -1,42 +1,59 @@
-apiVersion: clickhouse.com/v1alpha1
-kind: KeeperCluster
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-  name: keeper-analytics
-  namespace: {{ .Release.Namespace | default "apps" }}
-spec:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 500m
-      memory: 256Mi
-  dataVolumeClaimSpec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 2Gi
-
----
-apiVersion: clickhouse.com/v1alpha1
-kind: ClickHouseCluster
+apiVersion: clickhouse.altinity.com/v1
+kind: ClickHouseInstallation
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   name: clickhouse-analytics
   namespace: {{ .Release.Namespace | default "apps" }}
 spec:
-  replicas: 1
-  shards: 1
-  keeperClusterRef:
-    name: keeper-analytics
-  dataVolumeClaimSpec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 10Gi
+  configuration:
+    users:
+      default/password: {{ .Values.secrets.CLICKHOUSE_PASSWORD | default "default_password" | quote }}
+      default/networks/ip: "::/0"
+    clusters:
+      - name: "analytics-cluster"
+        layout:
+          shardsCount: 1
+          replicasCount: 1
+  templates:
+    volumeClaimTemplates:
+      - name: data-volume-template
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: local-path
+          resources:
+            requests:
+              storage: 10Gi
+    podTemplates:
+      - name: clickhouse-pod-template
+        spec:
+          containers:
+            - name: clickhouse
+              image: clickhouse/clickhouse-server:24.3
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: 1000m
+                  memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: clickhouse-analytics
+  namespace: {{ .Release.Namespace | default "apps" }}
+spec:
+  selector:
+    clickhouse.altinity.com/chi: clickhouse-analytics
+  ports:
+    - name: http
+      port: 8123
+      targetPort: 8123
+    - name: tcp
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP
