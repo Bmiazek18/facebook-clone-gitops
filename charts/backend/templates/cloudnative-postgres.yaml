@@ -38,23 +38,6 @@ spec:
     size: 10Gi
     storageClass: local-path
   
-  backup:
-    retentionPolicy: "30d"
-    barmanObjectStore:
-      wal:
-        compression: gzip
-      data:
-        compression: gzip
-      destinationPath: s3://backups/postgres
-      s3Credentials:
-        accessKeyId:
-          name: s3-credentials
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: s3-credentials
-          key: SECRET_ACCESS_KEY
-      serverName: postgres-user
-
   # Health checks
   resources:
     requests:
@@ -74,6 +57,7 @@ metadata:
   namespace: apps
 type: Opaque
 stringData:
+  username: postgres
   password: "change-me-secure-password"
 
 ---
@@ -151,23 +135,6 @@ spec:
     size: 5Gi
     storageClass: local-path
   
-  backup:
-    retentionPolicy: "7d"
-    barmanObjectStore:
-      wal:
-        compression: gzip
-      data:
-        compression: gzip
-      destinationPath: s3://backups/postgres-notifications
-      s3Credentials:
-        accessKeyId:
-          name: s3-credentials
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: s3-credentials
-          key: SECRET_ACCESS_KEY
-      serverName: postgres-notifications
-
   resources:
     requests:
       cpu: 100m
@@ -186,6 +153,7 @@ metadata:
   namespace: apps
 type: Opaque
 stringData:
+  username: postgres
   password: "change-me-secure-password"
 
 ---
@@ -232,6 +200,7 @@ metadata:
   namespace: apps
 type: Opaque
 stringData:
+  username: postgres
   password: "change-me-secure-password"
 ---
 apiVersion: postgresql.cnpg.io/v1
