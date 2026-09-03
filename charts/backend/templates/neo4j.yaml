@@ -63,9 +63,8 @@ spec:
           periodSeconds: 15
           timeoutSeconds: 5
         readinessProbe:
-          httpGet:
-            path: /ready
-            port: 7474
+          tcpSocket:
+            port: 7687
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5

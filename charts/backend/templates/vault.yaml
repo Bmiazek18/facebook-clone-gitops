@@ -82,6 +82,19 @@ spec:
           periodSeconds: 5
       securityContext:
         fsGroup: 1000
+      initContainers:
+      - name: vault-config
+        image: vault:latest
+        command: ['cp', '-v', '/vault/config/config.hcl', '/vault/data/config.hcl']
+        volumeMounts:
+        - name: vault-config
+          mountPath: /vault/config
+        - name: vault-data
+          mountPath: /vault/data
+      volumes:
+      - name: vault-config
+        configMap:
+          name: vault-config
   volumeClaimTemplates:
   - metadata:
       name: vault-data
@@ -91,22 +104,6 @@ spec:
       resources:
         requests:
           storage: 5Gi
-  
-  initContainers:
-  - name: vault-config
-    image: vault:latest
-    command: ['cp', '-v', '/vault/config/config.hcl', '/vault/data/config.hcl']
-    volumeMounts:
-    - name: vault-config
-      mountPath: /vault/config
-    - name: vault-data
-      mountPath: /vault/data
-  
-  volumes:
-  - name: vault-config
-    configMap:
-      name: vault-config
-
 ---
 apiVersion: v1
 kind: Service
