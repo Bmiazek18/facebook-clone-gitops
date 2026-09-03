@@ -4,6 +4,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   name: analytics-service
+  namespace: {{ .Release.Namespace | default "apps" }}
   labels:
     app: analytics-service
 spec:
@@ -70,13 +71,13 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: http
+              port: 8095
             initialDelaySeconds: 20
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: http
+              port: 8095
             initialDelaySeconds: 40
             periodSeconds: 20
           resources:
@@ -88,10 +89,11 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   name: analytics-service
+  namespace: {{ .Release.Namespace | default "apps" }}
 spec:
   selector:
     app: analytics-service
   ports:
     - name: http
       port: 8095
-      targetPort: http
+      targetPort: 8095

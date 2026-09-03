@@ -1,46 +1,55 @@
-apiVersion: clickhouse.altinity.com/v1
-kind: ClickHouseInstallation
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   name: clickhouse-analytics
   namespace: {{ .Release.Namespace | default "apps" }}
 spec:
-  configuration:
-    users:
-      default/password: {{ .Values.secrets.CLICKHOUSE_PASSWORD | default "default_password" | quote }}
-      default/networks/ip: "::/0"
-    clusters:
-      - name: "analytics"
-        templates:
-          podTemplate: clickhouse-pod-template
-          dataVolumeClaimTemplate: data-volume-template
-        layout:
-          shardsCount: 1
-          replicasCount: 1
-  templates:
-    volumeClaimTemplates:
-      - name: data-volume-template
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: local-path
+  serviceName: clickhouse-analytics
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clickhouse-analytics
+  template:
+    metadata:
+      labels:
+        app: clickhouse-analytics
+    spec:
+      containers:
+        - name: clickhouse
+          image: clickhouse/clickhouse-server:24.3
+          ports:
+            - name: http
+              containerPort: 8123
+            - name: tcp
+              containerPort: 9000
+          env:
+            - name: CLICKHOUSE_PASSWORD
+              value: {{ .Values.secrets.CLICKHOUSE_PASSWORD | default "default_password" | quote }}
+            - name: CLICKHOUSE_USER
+              value: "default"
+            - name: CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT
+              value: "1"
           resources:
             requests:
-              storage: 10Gi
-    podTemplates:
-      - name: clickhouse-pod-template
-        spec:
-          containers:
-            - name: clickhouse
-              image: clickhouse/clickhouse-server:24.3
-              resources:
-                requests:
-                  cpu: 100m
-                  memory: 256Mi
-                limits:
-                  cpu: 1000m
-                  memory: 1Gi
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          volumeMounts:
+            - name: clickhouse-data
+              mountPath: /var/lib/clickhouse
+  volumeClaimTemplates:
+    - metadata:
+        name: clickhouse-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 10Gi
 ---
 apiVersion: v1
 kind: Service
@@ -51,7 +60,7 @@ metadata:
   namespace: {{ .Release.Namespace | default "apps" }}
 spec:
   selector:
-    clickhouse.altinity.com/chi: clickhouse-analytics
+    app: clickhouse-analytics
   ports:
     - name: http
       port: 8123
