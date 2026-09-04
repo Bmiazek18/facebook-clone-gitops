@@ -106,7 +106,7 @@ config:
 
 secrets:
   SPRING_DATASOURCE_USERNAME: postgres
-  SPRING_DATASOURCE_PASSWORD: change-me
+  SPRING_DATASOURCE_PASSWORD: "change-me-secure-password"
   CLICKHOUSE_USER: default
   CLICKHOUSE_PASSWORD: default_password
   NEO4J_PASSWORD: change-me

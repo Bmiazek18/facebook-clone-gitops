@@ -5,8 +5,8 @@ metadata:
   namespace: apps
   annotations:
     argocd.argoproj.io/sync-wave: "3"
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   template:
     metadata:
@@ -42,7 +42,22 @@ spec:
           
           # Write secrets for socialgraph-service
           vault kv put -address=http://vault:8200 secret/socialgraph-service \
-            spring.neo4j.authentication.username={{ .Values.secrets.NEO4J_USER | quote }} \
+            spring.neo4j.authentication.username={{ .Values.secrets.NEO4J_USER | default "neo4j" | quote }} \
             spring.neo4j.authentication.password={{ .Values.secrets.NEO4J_PASSWORD | quote }}
+
+          # Write secrets for notification-service
+          vault kv put -address=http://vault:8200 secret/notification-service \
+            spring.datasource.username={{ .Values.secrets.SPRING_DATASOURCE_USERNAME | quote }} \
+            spring.datasource.password={{ .Values.secrets.SPRING_DATASOURCE_PASSWORD | quote }}
+
+          # Write secrets for feed-service
+          vault kv put -address=http://vault:8200 secret/feed-service \
+            spring.datasource.username={{ .Values.secrets.SPRING_DATASOURCE_USERNAME | quote }} \
+            spring.datasource.password={{ .Values.secrets.SPRING_DATASOURCE_PASSWORD | quote }}
+
+          # Write secrets for groups-service
+          vault kv put -address=http://vault:8200 secret/groups-service \
+            spring.datasource.username={{ .Values.secrets.SPRING_DATASOURCE_USERNAME | quote }} \
+            spring.datasource.password={{ .Values.secrets.SPRING_DATASOURCE_PASSWORD | quote }}
             
           echo "Vault initialized successfully!"
