@@ -198,7 +198,7 @@ vllm:
     - --max-model-len
     - "512"
     - --gpu-memory-utilization
-    - "0.95"
+    - "0.98"
     - --enforce-eager
     - --disable-frontend-multiprocessing
 
