@@ -91,7 +91,7 @@ config:
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-kafka-bootstrap.apps.svc.cluster.local:9092
   VAULT_URI: http://vault.apps.svc.cluster.local:8200
   VAULT_TOKEN: vault-root-token
-  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4317"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
   LINK_GUARD_SERVICE_URL: http://linkguard-service:8086
   INFERENCE_SERVICE_URL: http://inference-service:8000
   OLLAMA_BASE_URL: "http://vllm-service.apps.svc.cluster.local:8000/v1"
