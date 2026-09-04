@@ -31,6 +31,8 @@ spec:
               value: "true"
             - name: MEILI_MASTER_KEY
               value: "masterKey"
+            - name: MEILI_MAX_INDEXING_MEMORY
+              value: "200MB"
           resources:
             requests:
               cpu: 100m
