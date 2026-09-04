@@ -17,6 +17,9 @@ data:
       enabled: false
     include_subgraph_errors:
       all: true
+    health_check:
+      listen: 0.0.0.0:8088
+      path: /health
     headers:
       all:
         request:
