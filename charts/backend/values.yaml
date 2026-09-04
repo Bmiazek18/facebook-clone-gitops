@@ -216,7 +216,7 @@ vllm:
     periodSeconds: 30
     failureThreshold: 5
 vllmPersistence:
-  enabled: true
+  enabled: false
   size: 40Gi
   accessMode: ReadWriteOnce
   storageClass: local-path
