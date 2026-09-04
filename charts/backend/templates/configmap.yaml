@@ -8,6 +8,7 @@ data:
   SPRING_DATASOURCE_URL: {{ .Values.config.SPRING_DATASOURCE_URL | quote }}
   NOTIFICATION_DATASOURCE_URL: {{ .Values.config.NOTIFICATION_DATASOURCE_URL | quote }}
   FEED_DATASOURCE_URL: {{ .Values.config.FEED_DATASOURCE_URL | quote }}
+  ANALYTICS_DATASOURCE_URL: {{ .Values.config.ANALYTICS_DATASOURCE_URL | quote }}
   SPRING_DATA_REDIS_HOST: {{ .Values.config.SPRING_DATA_REDIS_HOST | quote }}
   SPRING_DATA_REDIS_PORT: {{ .Values.config.SPRING_DATA_REDIS_PORT | quote }}
   MINIO_URL: {{ .Values.config.MINIO_URL | quote }}
