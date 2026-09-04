@@ -23,17 +23,24 @@ spec:
       {{- if .Values.istio.enabled }}
       serviceAccountName: vllm-sa
       {{- end }}
+      {{- if or (and .Values.vllm .Values.vllm.runtimeClassName) .Values.runtimeClassName }}
+      runtimeClassName: {{ .Values.vllm.runtimeClassName | default .Values.runtimeClassName }}
+      {{- end }}
       containers:
         - name: vllm
-          image: "{{ .Values.images.vllm.repository | default "vllm/vllm-openai" }}:{{ .Values.images.vllm.tag | default "latest" }}"
-          imagePullPolicy: {{ .Values.imagePullPolicy | default "IfNotPresent" }}
+          image: "{{ if and .Values.vllm .Values.vllm.image }}{{ .Values.vllm.image.repository }}:{{ .Values.vllm.image.tag }}{{ else }}{{ .Values.images.vllm.repository | default "vllm/vllm-openai" }}:{{ .Values.images.vllm.tag | default "latest" }}{{ end }}"
+          imagePullPolicy: {{ if and .Values.vllm .Values.vllm.image .Values.vllm.image.pullPolicy }}{{ .Values.vllm.image.pullPolicy }}{{ else }}{{ .Values.imagePullPolicy | default "IfNotPresent" }}{{ end }}
+          {{- if and .Values.vllm .Values.vllm.args }}
+          args:
+            {{- toYaml .Values.vllm.args | nindent 12 }}
+          {{- else }}
           command:
             - python3
             - -m
             - vllm.entrypoints.openai.api_server
           args:
             - "--model"
-            - {{ .Values.config.OLLAMA_MODEL | default "Qwen/Qwen2.5-7B-Instruct" | quote }}
+            - {{ .Values.config.OLLAMA_MODEL | default "Qwen/Qwen2.5-7B-Instruct-AWQ" | quote }}
             - "--host"
             - "0.0.0.0"
             - "--port"
@@ -41,6 +48,7 @@ spec:
             - "--trust-remote-code"
             - "--gpu-memory-utilization"
             - {{ .Values.vllmGpuMemoryUtilization | default "0.90" | quote }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 8000
@@ -57,7 +65,19 @@ spec:
             - name: dshm
               mountPath: /dev/shm
           resources:
+            {{- if and .Values.vllm .Values.vllm.resources }}
+            {{- toYaml .Values.vllm.resources | nindent 12 }}
+            {{- else }}
             {{- toYaml .Values.vllmResources | nindent 12 }}
+            {{- end }}
+          {{- if and .Values.vllm .Values.vllm.startupProbe }}
+          startupProbe:
+            {{- toYaml .Values.vllm.startupProbe | nindent 12 }}
+          {{- end }}
+          {{- if and .Values.vllm .Values.vllm.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.vllm.readinessProbe | nindent 12 }}
+          {{- else }}
           readinessProbe:
             httpGet:
               path: /health
@@ -66,6 +86,11 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 30
+          {{- end }}
+          {{- if and .Values.vllm .Values.vllm.livenessProbe }}
+          livenessProbe:
+            {{- toYaml .Values.vllm.livenessProbe | nindent 12 }}
+          {{- else }}
           livenessProbe:
             httpGet:
               path: /health
@@ -73,6 +98,7 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 20
             timeoutSeconds: 5
+          {{- end }}
       volumes:
         - name: model-cache
           {{- if .Values.vllmPersistence.enabled }}

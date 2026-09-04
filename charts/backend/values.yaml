@@ -179,16 +179,54 @@ chromaPersistence:
   accessMode: ReadWriteOnce
   storageClass: local-path
 
-vllmGpuMemoryUtilization: "0.75"
-vllmResources:
-  requests:
-    cpu: 500m
-    memory: 4Gi
-    nvidia.com/gpu: "1"
-  limits:
-    cpu: 4000m
-    memory: 8Gi
-    nvidia.com/gpu: "1"
+vllm:
+  image:
+    repository: vllm/vllm-openai
+    tag: v0.6.3.post1
+    pullPolicy: IfNotPresent
+
+  runtimeClassName: nvidia
+
+  args:
+    - --model
+    - Qwen/Qwen2.5-7B-Instruct-AWQ
+    - --host
+    - 0.0.0.0
+    - --port
+    - "8000"
+    - --trust-remote-code
+    - --max-model-len
+    - "512"
+    - --gpu-memory-utilization
+    - "0.95"
+    - --enforce-eager
+    - --disable-frontend-multiprocessing
+
+  resources:
+    limits:
+      cpu: "8"
+      memory: 16Gi
+      nvidia.com/gpu: "1"
+    requests:
+      cpu: 500m
+      memory: 8Gi
+      nvidia.com/gpu: "1"
+
+  startupProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    failureThreshold: 60
+
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 120
+    periodSeconds: 30
+    failureThreshold: 5
 
 vllmPersistence:
   enabled: true
