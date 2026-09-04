@@ -11,12 +11,21 @@ data:
       path: /graphql
       introspection: true
     cors:
-      origins:
-        - https://lab-bm.com
-        - https://api.lab-bm.com
-        - http://localhost:3000
-        - http://localhost:5173
-      allow_any_origin: true
+      policies:
+        - origins:
+            - https://lab-bm.com
+            - https://api.lab-bm.com
+            - http://localhost:3000
+            - http://localhost:5173
+          allow_credentials: true
+          methods:
+            - GET
+            - POST
+            - OPTIONS
+          allow_headers:
+            - "*"
+          expose_headers:
+            - "*"
     sandbox:
       enabled: true
     homepage:
