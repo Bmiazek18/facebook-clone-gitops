@@ -44,7 +44,7 @@ images:
     tag: "469cc1fdb1c960a57a15225a2acb4378075fcc66"
   analyticsService:
     repository: ghcr.io/bmiazek18/facebook-clone-analytics-service
-    tag: "7c954344b4135450aaa7bc4483efcc945b54557f"
+    tag: "9860e00e07b223ae74ff5b029efdbad3e01d7292"
   recommendService:
     repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
     tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
