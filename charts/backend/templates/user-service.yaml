@@ -110,6 +110,25 @@ spec:
                 secretKeyRef:
                   name: backend-runtime-secrets
                   key: VAULT_TOKEN
+            - name: MQTT_BROKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: MQTT_BROKER_URL
+            - name: RABBITMQ_HOST
+              value: "rabbitmq"
+            - name: RABBITMQ_PORT
+              value: "5672"
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-default-user
+                  key: username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-default-user
+                  key: password
             - name: SPRING_RABBITMQ_HOST
               value: "rabbitmq"
             - name: SPRING_RABBITMQ_PORT
