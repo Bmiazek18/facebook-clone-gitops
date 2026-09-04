@@ -155,15 +155,21 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: -Xms128m -Xmx256m
 
+          startupProbe:
+            grpc:
+              port: 9090
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 30
           readinessProbe:
             grpc:
               port: 9090
-            initialDelaySeconds: 20
+            initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             grpc:
               port: 9090
-            initialDelaySeconds: 40
+            initialDelaySeconds: 10
             periodSeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
