@@ -120,10 +120,10 @@ secrets:
 resources:
   requests:
     cpu: 50m
-    memory: 64Mi
+    memory: 128Mi
   limits:
     cpu: 500m
-    memory: 256Mi
+    memory: 768Mi
 
 videoAbrResources:
   requests:
@@ -136,10 +136,10 @@ videoAbrResources:
 linkguardWorkerResources:
   requests:
     cpu: 50m
-    memory: 64Mi
+    memory: 128Mi
   limits:
     cpu: 300m
-    memory: 256Mi
+    memory: 512Mi
 
 inferenceResources:
   requests:
