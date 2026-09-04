@@ -96,3 +96,18 @@ spec:
     - name: http
       port: 8089
       targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  name: chat-edge
+spec:
+  selector:
+    app: chat-edge-service
+  ports:
+    - name: http
+      port: 8089
+      targetPort: http
+

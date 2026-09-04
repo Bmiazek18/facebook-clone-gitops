@@ -108,3 +108,18 @@ spec:
     - name: http
       port: 8084
       targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  name: feed-edge
+spec:
+  selector:
+    app: feed-edge-service
+  ports:
+    - name: http
+      port: 8084
+      targetPort: http
+
