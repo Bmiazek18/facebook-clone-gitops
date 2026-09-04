@@ -32,7 +32,7 @@ images:
     tag: "latest"
   chatService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-service
-    tag: "d293e69892b0ed7e3f1f070c06fd673f4151c34a"
+    tag: "922096c8e8c20872f433f508363b038ad211e796"
   chatEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-edge-service
     tag: "latest"
