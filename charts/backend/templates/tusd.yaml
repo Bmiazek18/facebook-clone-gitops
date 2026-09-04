@@ -48,7 +48,7 @@ spec:
               name: backend-runtime-config
               key: MINIO_URL
         command:
-        - /tusd
+        - tusd
         - -s3-bucket
         - poczekalnia
         - -s3-endpoint
