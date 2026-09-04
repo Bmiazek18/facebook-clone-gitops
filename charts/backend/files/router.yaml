@@ -17,9 +17,25 @@ cors:
         - POST
         - OPTIONS
       allow_headers:
-        - "*"
+        - authorization
+        - content-type
+        - x-apollo-operation-id
+        - x-apollo-operation-name
+        - apollo-require-preflight
+        - x-user-id
+        - x-actor-id
+        - x-entity-type
+        - x-original-user-id
+        - accept
+        - accept-language
+        - origin
+        - sentry-trace
+        - baggage
       expose_headers:
-        - "*"
+        - content-type
+        - authorization
+        - sentry-trace
+        - baggage
 
 sandbox:
   enabled: true
