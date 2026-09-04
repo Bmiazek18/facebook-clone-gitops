@@ -105,7 +105,8 @@ secrets:
   SPRING_DATASOURCE_PASSWORD: "change-me-secure-password"
   CLICKHOUSE_USER: default
   CLICKHOUSE_PASSWORD: default_password
-  NEO4J_PASSWORD: change-me
+  NEO4J_USER: neo4j
+  NEO4J_PASSWORD: "change-me-secure-password"
   MINIO_ACCESS_KEY: change-me
   MINIO_SECRET_KEY: change-me
   SENTRY_DSN: ""
