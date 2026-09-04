@@ -33,6 +33,16 @@ spec:
             - name: grpc
               containerPort: 9095
           env:
+            - name: SPRING_DATA_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATA_REDIS_HOST
+            - name: SPRING_DATA_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: SPRING_DATA_REDIS_PORT
             - name: SCYLLA_CONTACT_POINTS
               valueFrom:
                 configMapKeyRef:

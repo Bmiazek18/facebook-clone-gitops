@@ -51,5 +51,19 @@ spec:
               value: {{ .Values.redis.port | default "6379" | quote }}
             - name: NUXT_REDIS_URL
               value: {{ .Values.redis.url | default "redis://redis.apps.svc.cluster.local:6379" | quote }}
+            - name: CHAT_SERVICE_URL
+              value: {{ .Values.chatServiceUrl | default "http://chat-service.apps.svc.cluster.local:8087" | quote }}
+            - name: NOTIFICATION_SERVICE_URL
+              value: {{ .Values.notificationServiceUrl | default "http://notificationservice.apps.svc.cluster.local:8083" | quote }}
+            - name: ANALYTICS_SERVICE_URL
+              value: {{ .Values.analyticsServiceUrl | default "http://analytics-service.apps.svc.cluster.local:8095" | quote }}
+            - name: SEARCH_SERVICE_URL
+              value: {{ .Values.searchServiceUrl | default "http://search-service.apps.svc.cluster.local:8088" | quote }}
+            - name: MARKETPLACE_SERVICE_URL
+              value: {{ .Values.marketplaceServiceUrl | default "http://marketplace-service.apps.svc.cluster.local:8090" | quote }}
+            - name: USER_SERVICE_URL
+              value: {{ .Values.userServiceUrl | default "http://userservice.apps.svc.cluster.local:8081" | quote }}
+            - name: APOLLO_ROUTER_URL
+              value: {{ .Values.apolloRouterUrl | default "http://apollo-router.apps.svc.cluster.local:4000/graphql" | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
