@@ -1,5 +1,4 @@
 replicaCount: 1
-
 images:
   userService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-service
@@ -27,19 +26,19 @@ images:
     tag: "v2.17.0"
   feedService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-service
-    tag: "latest"
+    tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
   feedEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-edge-service
     tag: "latest"
   chatService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-service
-    tag: "latest"
+    tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
   chatEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-edge-service
     tag: "latest"
   linkguardService:
     repository: ghcr.io/bmiazek18/facebook-clone-linkguard-service
-    tag: "latest"
+    tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
   inferenceService:
     repository: ghcr.io/bmiazek18/facebook-clone-inference-service
     tag: "469cc1fdb1c960a57a15225a2acb4378075fcc66"
@@ -48,7 +47,7 @@ images:
     tag: "latest"
   recommendService:
     repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
-    tag: "ddf6f8771bf691112bbc151ad8363d7badb875ab"
+    tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
   groupsService:
     repository: ghcr.io/bmiazek18/facebook-clone-groups-service
     tag: "latest"
@@ -67,11 +66,9 @@ images:
   vllm:
     repository: vllm/vllm-openai
     tag: "latest"
-
 imagePullPolicy: IfNotPresent
 apiHost: "api.lab-bm.com"
 keycloakJwksUrl: "http://keycloak-service:8080/realms/myrealm/protocol/openid-connect/certs"
-
 config:
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql-user.apps.svc.cluster.local:5432/users_db
   NOTIFICATION_DATASOURCE_URL: jdbc:postgresql://postgresql-notifications.apps.svc.cluster.local:5432/notifications_db
@@ -103,7 +100,6 @@ config:
   CHROMA_HOST: "chroma.apps.svc.cluster.local"
   CHROMA_PORT: "8000"
   SENTRY_ENVIRONMENT: production
-
 secrets:
   SPRING_DATASOURCE_USERNAME: postgres
   SPRING_DATASOURCE_PASSWORD: "change-me-secure-password"
@@ -116,7 +112,6 @@ secrets:
   SENTRY_TRACES_SAMPLE_RATE: "0.1"
   LANGFUSE_PUBLIC_KEY: ""
   LANGFUSE_SECRET_KEY: ""
-
 resources:
   requests:
     cpu: 50m
@@ -124,7 +119,6 @@ resources:
   limits:
     cpu: 500m
     memory: 768Mi
-
 videoAbrResources:
   requests:
     cpu: 100m
@@ -132,7 +126,6 @@ videoAbrResources:
   limits:
     cpu: 1000m
     memory: 1Gi
-
 linkguardWorkerResources:
   requests:
     cpu: 50m
@@ -140,7 +133,6 @@ linkguardWorkerResources:
   limits:
     cpu: 300m
     memory: 512Mi
-
 inferenceResources:
   requests:
     cpu: 100m
@@ -150,7 +142,6 @@ inferenceResources:
     cpu: 1000m
     memory: 2Gi
     nvidia.com/gpu: "1"
-
 metaAiResources:
   requests:
     cpu: 100m
@@ -158,13 +149,11 @@ metaAiResources:
   limits:
     cpu: 1000m
     memory: 1Gi
-
 metaAiPersistence:
   enabled: true
   size: 10Gi
   accessMode: ReadWriteOnce
   storageClass: local-path
-
 chromaResources:
   requests:
     cpu: 100m
@@ -172,21 +161,17 @@ chromaResources:
   limits:
     cpu: 1000m
     memory: 1Gi
-
 chromaPersistence:
   enabled: true
   size: 10Gi
   accessMode: ReadWriteOnce
   storageClass: local-path
-
 vllm:
   image:
     repository: vllm/vllm-openai
     tag: v0.6.3.post1
     pullPolicy: IfNotPresent
-
   runtimeClassName: nvidia
-
   args:
     - --model
     - Qwen/Qwen2.5-7B-Instruct-AWQ
@@ -201,7 +186,6 @@ vllm:
     - "0.98"
     - --enforce-eager
     - --disable-frontend-multiprocessing
-
   resources:
     limits:
       cpu: "8"
@@ -211,7 +195,6 @@ vllm:
       cpu: 500m
       memory: 8Gi
       nvidia.com/gpu: "1"
-
   startupProbe:
     httpGet:
       path: /health
@@ -219,7 +202,6 @@ vllm:
     initialDelaySeconds: 30
     periodSeconds: 10
     failureThreshold: 60
-
   livenessProbe:
     httpGet:
       path: /health
@@ -227,12 +209,10 @@ vllm:
     initialDelaySeconds: 120
     periodSeconds: 30
     failureThreshold: 5
-
 vllmPersistence:
   enabled: true
   size: 40Gi
   accessMode: ReadWriteOnce
   storageClass: local-path
-
 istio:
   enabled: false
