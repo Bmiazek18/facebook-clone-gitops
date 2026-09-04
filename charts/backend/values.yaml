@@ -2,7 +2,7 @@ replicaCount: 1
 images:
   userService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-service
-    tag: "d9bf41e64eb090cc8ed7f48ab3725c2366b95700"
+    tag: "d293e69892b0ed7e3f1f070c06fd673f4151c34a"
   userEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-edge-service
     tag: "latest"
@@ -32,7 +32,7 @@ images:
     tag: "latest"
   chatService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-service
-    tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
+    tag: "d293e69892b0ed7e3f1f070c06fd673f4151c34a"
   chatEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-edge-service
     tag: "latest"
