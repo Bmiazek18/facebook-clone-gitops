@@ -88,7 +88,7 @@ config:
   CHAT_SERVICE_GRPC_ADDRESS: dns:///chat-service:9095
   SCYLLA_CONTACT_POINTS: scylla-cluster-client.apps.svc.cluster.local:9042
   MQTT_BROKER_URL: tcp://mqtt-broker.apps.svc.cluster.local:1883
-  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka.apps.svc.cluster.local:9092
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-kafka-bootstrap.apps.svc.cluster.local:9092
   VAULT_URI: http://vault.apps.svc.cluster.local:8200
   VAULT_TOKEN: vault-root-token
   OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4317"
