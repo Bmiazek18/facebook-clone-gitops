@@ -130,9 +130,13 @@ linkguardWorkerResources:
   requests:
     cpu: 50m
     memory: 128Mi
+recommendResources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
   limits:
-    cpu: 300m
-    memory: 512Mi
+    cpu: 1000m
+    memory: 2Gi
 inferenceResources:
   requests:
     cpu: 100m
