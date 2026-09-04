@@ -94,7 +94,7 @@ spec:
 
           volumeMounts:
             - name: meta-ai-data
-              mountPath: /app/rag
+              mountPath: /app/data
           resources:
             {{- toYaml .Values.metaAiResources | nindent 12 }}
           readinessProbe:

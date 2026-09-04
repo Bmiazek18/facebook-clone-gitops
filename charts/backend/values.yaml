@@ -15,13 +15,13 @@ images:
     tag: "d9bf41e64eb090cc8ed7f48ab3725c2366b95700"
   videoAbrService:
     repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
-    tag: "latest"
+    tag: "ddf6f8771bf691112bbc151ad8363d7badb875ab"
   searchService:
     repository: ghcr.io/bmiazek18/facebook-clone-search-service
     tag: "latest"
   notificationService:
     repository: ghcr.io/bmiazek18/facebook-clone-notification-service
-    tag: "d9bf41e64eb090cc8ed7f48ab3725c2366b95700"
+    tag: "99039fa8101d442e59155cda99a6325241558c9f"
   apolloRouter:
     repository: ghcr.io/apollographql/router
     tag: "v2.17.0"
@@ -48,7 +48,7 @@ images:
     tag: "latest"
   recommendService:
     repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
-    tag: "latest"
+    tag: "ddf6f8771bf691112bbc151ad8363d7badb875ab"
   groupsService:
     repository: ghcr.io/bmiazek18/facebook-clone-groups-service
     tag: "latest"
@@ -236,28 +236,3 @@ vllmPersistence:
 
 istio:
   enabled: false
-
-videoAbrService:
-  image:
-    repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
-    tag: ddf6f8771bf691112bbc151ad8363d7badb875ab
-
-recommendService:
-  image:
-    repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
-    tag: ddf6f8771bf691112bbc151ad8363d7badb875ab
-
-notificationService:
-  image:
-    repository: ghcr.io/bmiazek18/facebook-clone-notification-service
-    tag: 99039fa8101d442e59155cda99a6325241558c9f
-
-userService:
-  image:
-    repository: ghcr.io/bmiazek18/facebook-clone-user-service
-    tag: c629206b3e8eeebc7f4a81ed596eee50e69c60a8
-
-socialgraphService:
-  image:
-    repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-service
-    tag: c629206b3e8eeebc7f4a81ed596eee50e69c60a8
