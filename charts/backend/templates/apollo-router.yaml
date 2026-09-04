@@ -37,6 +37,8 @@ spec:
           ports:
             - name: http
               containerPort: 4000
+            - name: health
+              containerPort: 8088
           volumeMounts:
             - name: router-config
               mountPath: /dist/config
@@ -45,14 +47,14 @@ spec:
           readinessProbe:
             httpGet:
               path: /health
-              port: http
-            initialDelaySeconds: 10
+              port: health
+            initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /health
-              port: http
-            initialDelaySeconds: 20
+              port: health
+            initialDelaySeconds: 10
             periodSeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
