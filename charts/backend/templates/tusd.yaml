@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "4"
   name: tusd
   namespace: apps
   labels:
@@ -79,7 +79,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "4"
   name: tusd
   namespace: apps
 spec:

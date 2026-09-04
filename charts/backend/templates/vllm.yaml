@@ -1,3 +1,4 @@
+{{- if and .Values.vllm .Values.vllm.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -145,4 +146,5 @@ spec:
     requests:
       storage: {{ .Values.vllmPersistence.size | default "40Gi" }}
   storageClassName: {{ .Values.vllmPersistence.storageClass | default "local-path" }}
+{{- end }}
 {{- end }}

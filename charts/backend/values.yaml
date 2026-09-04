@@ -171,6 +171,7 @@ chromaPersistence:
   accessMode: ReadWriteOnce
   storageClass: local-path
 vllm:
+  enabled: false
   image:
     repository: vllm/vllm-openai
     tag: v0.6.3.post1
