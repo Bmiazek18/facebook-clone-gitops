@@ -53,13 +53,13 @@ images:
     tag: "latest"
   marketplaceService:
     repository: ghcr.io/bmiazek18/facebook-clone-marketplace-service
-    tag: "latest"
+    tag: "2f4105586277c9c5eea323ba77c547539f077023"
   marketplaceEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-marketplace-edge-service
     tag: "latest"
   metaAiService:
     repository: ghcr.io/bmiazek18/facebook-clone-meta-ai-service
-    tag: "469cc1fdb1c960a57a15225a2acb4378075fcc66"
+    tag: "2f4105586277c9c5eea323ba77c547539f077023"
   chroma:
     repository: chromadb/chroma
     tag: "0.6.3"
