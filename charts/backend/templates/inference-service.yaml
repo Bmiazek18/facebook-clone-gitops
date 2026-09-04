@@ -29,6 +29,12 @@ spec:
           ports:
             - name: http
               containerPort: 8000
+          env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
           resources:
             {{- toYaml .Values.inferenceResources | nindent 12 }}
 ---

@@ -33,5 +33,10 @@ spec:
                 configMapKeyRef:
                   name: backend-runtime-config
                   key: INFERENCE_SERVICE_URL
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
           resources:
             {{- toYaml .Values.linkguardWorkerResources | nindent 12 }}

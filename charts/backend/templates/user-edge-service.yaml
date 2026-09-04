@@ -43,6 +43,11 @@ spec:
                 configMapKeyRef:
                   name: backend-runtime-config
                   key: USER_SERVICE_GRPC_ADDRESS
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
             - name: JAVA_TOOL_OPTIONS
               value: -Xms128m -Xmx256m
           readinessProbe:

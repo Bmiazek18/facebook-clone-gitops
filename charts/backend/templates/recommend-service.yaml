@@ -53,6 +53,11 @@ spec:
                 configMapKeyRef:
                   name: backend-runtime-config
                   key: SPRING_KAFKA_BOOTSTRAP_SERVERS
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
           readinessProbe:
             httpGet:
               path: /health

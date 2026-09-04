@@ -38,6 +38,11 @@ spec:
               value: "super_secret_link_guard_key_2026"
             - name: FEED_SERVICE_GRPC_ADDRESS
               value: "feedservice:9092"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: OTEL_EXPORTER_OTLP_ENDPOINT
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 ---
