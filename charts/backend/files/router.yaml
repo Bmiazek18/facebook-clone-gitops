@@ -5,6 +5,11 @@ supergraph:
   introspection: true
 
 cors:
+  origins:
+    - https://lab-bm.com
+    - https://api.lab-bm.com
+    - http://localhost:3000
+    - http://localhost:5173
   allow_any_origin: true
 
 sandbox:
@@ -20,27 +25,13 @@ health_check:
   listen: 0.0.0.0:8088
   path: /health
 
-
 headers:
   all:
     request:
       - propagate:
-          named: "Authorization"
-      - propagate:
-          named: "X-User-Id"
-      - propagate:
-          named: "X-Actor-Id"
-      - propagate:
-          named: "X-Entity-Type"
-      - propagate:
-          named: "X-Original-User-Id"
+          matching: "(?i)^(authorization|x-.*)$"
 
 rhai:
   scripts: "/dist/config"
   main: "main.rhai"
-
-# plugins:
-#   custom.jwt_auth:
-#     jwks_url: "http://keycloak-service:8080/realms/facebook-clone/protocol/openid-connect/certs"
-#     issuer: "https://auth.lab-bm.com/realms/facebook-clone"
 
