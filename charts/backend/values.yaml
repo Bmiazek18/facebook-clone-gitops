@@ -193,7 +193,7 @@ vllm:
       nvidia.com/gpu: "1"
     requests:
       cpu: 500m
-      memory: 8Gi
+      memory: 2Gi
       nvidia.com/gpu: "1"
   startupProbe:
     httpGet:
