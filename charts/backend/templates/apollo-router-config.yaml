@@ -17,13 +17,6 @@ data:
       enabled: false
     include_subgraph_errors:
       all: true
-    authentication:
-      router:
-        jwt:
-          jwks:
-            - url: {{ .Values.keycloakJwksUrl | quote }}
-          header_name: Authorization
-          header_value_prefix: Bearer
     headers:
       all:
         request:
