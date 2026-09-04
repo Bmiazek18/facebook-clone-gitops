@@ -26,7 +26,7 @@ data:
     auth_opt_check_prefix false
     auth_opt_backends http
     auth_opt_http_host userservice
-    auth_opt_http_port 8080
+    auth_opt_http_port 8081
     auth_opt_http_getuser_uri /internal/mqtt-auth/user
     auth_opt_http_aclcheck_uri /internal/mqtt-auth/acl
     auth_opt_http_superuser_uri /internal/mqtt-auth/superuser

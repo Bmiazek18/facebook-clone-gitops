@@ -115,6 +115,10 @@ spec:
                 configMapKeyRef:
                   name: backend-runtime-config
                   key: MQTT_BROKER_URL
+            - name: MQTT_USERNAME
+              value: "chat-service-internal"
+            - name: MQTT_PASSWORD
+              value: "chat-service-internal"
             - name: RABBITMQ_HOST
               value: "rabbitmq"
             - name: RABBITMQ_PORT
