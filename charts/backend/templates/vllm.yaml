@@ -15,6 +15,10 @@ spec:
     metadata:
       labels:
         app: vllm
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
     spec:
       {{- if .Values.istio.enabled }}
       serviceAccountName: vllm-sa
