@@ -79,18 +79,25 @@ spec:
                   name: backend-runtime-config
                   key: OTEL_EXPORTER_OTLP_ENDPOINT
             - name: JAVA_TOOL_OPTIONS
-              value: -Xms128m -Xmx256m
+              value: -Xms256m -Xmx512m
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 30
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: http
-            initialDelaySeconds: 20
+            initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: http
-            initialDelaySeconds: 40
+            initialDelaySeconds: 10
             periodSeconds: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
