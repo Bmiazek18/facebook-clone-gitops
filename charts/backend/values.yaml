@@ -194,6 +194,9 @@ vllm:
     - "0.95"
     - --enforce-eager
     - --disable-frontend-multiprocessing
+    - --enable-auto-tool-choice
+    - --tool-call-parser
+    - hermes
   resources:
     limits:
       cpu: "4"
