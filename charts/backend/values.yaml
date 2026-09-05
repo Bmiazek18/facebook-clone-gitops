@@ -172,7 +172,7 @@ chromaPersistence:
   accessMode: ReadWriteOnce
   storageClass: local-path
 vllm:
-  enabled: false
+  enabled: true
   image:
     repository: vllm/vllm-openai
     tag: v0.6.3.post1
@@ -187,15 +187,15 @@ vllm:
     - "8000"
     - --trust-remote-code
     - --max-model-len
-    - "512"
+    - "2048"
     - --gpu-memory-utilization
-    - "0.98"
+    - "0.85"
     - --enforce-eager
     - --disable-frontend-multiprocessing
   resources:
     limits:
-      cpu: "8"
-      memory: 16Gi
+      cpu: "4"
+      memory: 10Gi
       nvidia.com/gpu: "1"
     requests:
       cpu: 500m
