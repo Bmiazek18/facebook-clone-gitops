@@ -59,7 +59,7 @@ images:
     tag: "9811cc2d2080fd7444d608daaff1d520f2cc9c6c"
   metaAiService:
     repository: ghcr.io/bmiazek18/facebook-clone-meta-ai-service
-    tag: "93e71f6bf714550fe93b8552ac9a4d404972fd45"
+    tag: "618c4dd789dd31a7539f8e46928cc093f14d99a2"
   chroma:
     repository: chromadb/chroma
     tag: "0.6.3"
