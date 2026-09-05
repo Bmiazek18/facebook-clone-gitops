@@ -2,7 +2,7 @@ replicaCount: 1
 images:
   userService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-service
-    tag: "9811cc2d2080fd7444d608daaff1d520f2cc9c6c"
+    tag: "d6aa4552f948cb64874786fe154eb8c19d5e742e"
   userEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-edge-service
     tag: "9811cc2d2080fd7444d608daaff1d520f2cc9c6c"
