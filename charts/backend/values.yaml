@@ -187,9 +187,9 @@ vllm:
     - "8000"
     - --trust-remote-code
     - --max-model-len
-    - "2048"
+    - "1024"
     - --gpu-memory-utilization
-    - "0.85"
+    - "0.95"
     - --enforce-eager
     - --disable-frontend-multiprocessing
   resources:
