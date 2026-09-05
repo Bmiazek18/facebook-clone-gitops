@@ -27,3 +27,5 @@ redis:
   host: "redis.apps.svc.cluster.local"
   port: "6379"
   url: "redis://redis.apps.svc.cluster.local:6379"
+apiGatewayUrl: "http://api-gateway.apps.svc.cluster.local:8080"
+tusdUrl: "http://api-gateway.apps.svc.cluster.local:8080"

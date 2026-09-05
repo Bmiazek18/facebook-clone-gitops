@@ -63,6 +63,10 @@ spec:
               value: {{ .Values.marketplaceServiceUrl | default "http://marketplace-service.apps.svc.cluster.local:8090" | quote }}
             - name: USER_SERVICE_URL
               value: {{ .Values.userServiceUrl | default "http://userservice.apps.svc.cluster.local:8081" | quote }}
+            - name: API_GATEWAY_URL
+              value: {{ .Values.apiGatewayUrl | default "http://api-gateway.apps.svc.cluster.local:8080" | quote }}
+            - name: TUSD_URL
+              value: {{ .Values.tusdUrl | default "http://api-gateway.apps.svc.cluster.local:8080" | quote }}
             - name: APOLLO_ROUTER_URL
               value: {{ .Values.apolloRouterUrl | default "http://apollo-router.apps.svc.cluster.local:4000/graphql" | quote }}
           resources:
