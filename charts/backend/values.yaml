@@ -2,7 +2,7 @@ replicaCount: 1
 images:
   userService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "1c9ff248e4d858bac5862cee7a2135ca09f60a4f"
   userEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-edge-service
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
@@ -50,7 +50,7 @@ images:
     tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
   groupsService:
     repository: ghcr.io/bmiazek18/facebook-clone-groups-service
-    tag: "84007f66ebcd522ffb1eb38a12fafbc4416e0966"
+    tag: "1c9ff248e4d858bac5862cee7a2135ca09f60a4f"
   marketplaceService:
     repository: ghcr.io/bmiazek18/facebook-clone-marketplace-service
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
