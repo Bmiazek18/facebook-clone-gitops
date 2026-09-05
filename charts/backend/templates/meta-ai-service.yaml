@@ -93,6 +93,24 @@ spec:
                   name: backend-runtime-config
                   key: CHROMA_PORT
                   optional: true
+            - name: MINIO_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: MINIO_URL
+                  optional: true
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: MINIO_ACCESS_KEY
+                  optional: true
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-runtime-secrets
+                  key: MINIO_SECRET_KEY
+                  optional: true
 
           volumeMounts:
             - name: meta-ai-data
