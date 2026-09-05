@@ -170,12 +170,28 @@ data:
                 proxy_buffering off;
                 proxy_read_timeout 300s;
             }
+            location /api/chat-threads {
+                proxy_pass http://meta_ai_service/chat-threads;
+                proxy_buffering off;
+            }
+            location /api/chat-history/ {
+                proxy_pass http://meta_ai_service/chat-history/;
+                proxy_buffering off;
+            }
+            location /api/process-chat {
+                proxy_pass http://meta_ai_service/process-chat;
+                proxy_buffering off;
+                proxy_read_timeout 300s;
+            }
+            location /api/generated_charts/ {
+                proxy_pass http://meta_ai_service/generated_charts/;
+            }
             location /chat-threads {
                 proxy_pass http://meta_ai_service/chat-threads;
                 proxy_buffering off;
             }
-            location /chat-history {
-                proxy_pass http://meta_ai_service/chat-history;
+            location /chat-history/ {
+                proxy_pass http://meta_ai_service/chat-history/;
                 proxy_buffering off;
             }
             location /process-chat {
