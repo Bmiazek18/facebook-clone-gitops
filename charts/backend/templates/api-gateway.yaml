@@ -22,63 +22,65 @@ data:
         types_hash_max_size 2048;
         client_max_body_size 100M;
 
+        resolver kube-dns.kube-system.svc.cluster.local valid=10s;
+
         upstream user-service-upstream {
-            server userservice.apps.svc.cluster.local:8081;
+            server userservice:8081;
             keepalive 32;
         }
 
         upstream chat-service-upstream {
-            server chat-service.apps.svc.cluster.local:8087;
+            server chat-service:8087;
             keepalive 32;
         }
 
         upstream notification-service-upstream {
-            server notificationservice.apps.svc.cluster.local:8083;
+            server notificationservice:8083;
             keepalive 32;
         }
 
         upstream search-service-upstream {
-            server search-service.apps.svc.cluster.local:8088;
+            server search-service:8088;
             keepalive 32;
         }
 
         upstream marketplace-service-upstream {
-            server marketplace-service.apps.svc.cluster.local:8090;
+            server marketplace-service:8090;
             keepalive 32;
         }
 
         upstream analytics-service-upstream {
-            server analytics-service.apps.svc.cluster.local:8095;
+            server analytics-service:8095;
             keepalive 32;
         }
 
         upstream linkguard-service-upstream {
-            server linkguard-service.apps.svc.cluster.local:8086;
+            server linkguard-service:8086;
             keepalive 32;
         }
 
         upstream meta-ai-service-upstream {
-            server meta-ai-service.apps.svc.cluster.local:8000;
+            server meta-ai-service:8000;
             keepalive 32;
         }
 
         upstream groups-service-upstream {
-            server groups-service.apps.svc.cluster.local:8082;
+            server groups-service:9098;
             keepalive 32;
         }
 
         upstream feed-service-upstream {
-            server feedservice.apps.svc.cluster.local:8084;
+            server feedservice:8086;
             keepalive 32;
         }
 
         upstream apollo-router-upstream {
-            server apollo-router.apps.svc.cluster.local:4000;
+            server apollo-router:4000;
             keepalive 32;
         }
 
         upstream tusd-service-upstream {
-            server tusd.apps.svc.cluster.local:1080;
+            server tusd:1080;
             keepalive 32;
         }
 
@@ -88,7 +90,7 @@ data:
 
             proxy_http_version 1.1;
             proxy_set_header Connection "";
-            proxy_set_header Host $host;
+            proxy_set_header Host $http_host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
