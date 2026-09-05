@@ -215,8 +215,8 @@ data:
                 "uid": "Prometheus"
               },
               "editorMode": "code",
-              "expr": "sum(jvm_memory_used_bytes{area=\"heap\"}) by (job)",
-              "legendFormat": "{{ `{{job}}` }}",
+              "expr": "sum(otel_jvm_memory_used_bytes{jvm_memory_type=\"heap\"}) by (exported_job)",
+              "legendFormat": "{{ `{{exported_job}}` }}",
               "range": true
             }
           ],
@@ -251,12 +251,12 @@ data:
                 "uid": "Prometheus"
               },
               "editorMode": "code",
-              "expr": "sum(rate(http_server_requests_seconds_count[5m])) by (job)",
-              "legendFormat": "{{ `{{job}}` }}",
+              "expr": "sum(rate(otel_http_server_request_duration_seconds_count[1m])) by (exported_job)",
+              "legendFormat": "{{ `{{exported_job}}` }}",
               "range": true
             }
           ],
-          "title": "HTTP Request Rate (5m)",
+          "title": "HTTP Request Rate (1m)",
           "type": "timeseries"
         },
         {
@@ -289,7 +289,7 @@ data:
                 "type": "loki",
                 "uid": "Loki"
               },
-              "expr": "{job=~\".*\"} |= \"\"",
+              "expr": "{k8s_namespace_name=\"apps\"} |= \"\"",
               "legendFormat": ""
             }
           ],

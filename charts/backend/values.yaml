@@ -86,6 +86,8 @@ config:
   SEARCH_SERVICE_GRPC_ADDRESS: dns:///search-service:9097
   FEED_SERVICE_GRPC_ADDRESS: dns:///feedservice:9092
   CHAT_SERVICE_GRPC_ADDRESS: dns:///chat-service:9095
+  MARKETPLACE_SERVICE_GRPC_ADDRESS: dns:///marketplace-service:9096
+  NOTIFICATION_SERVICE_GRPC_ADDRESS: dns:///notificationservice:9093
   SCYLLA_CONTACT_POINTS: scylla-cluster-client.apps.svc.cluster.local:9042
   MQTT_BROKER_URL: tcp://mqtt-broker.apps.svc.cluster.local:1883
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-kafka-bootstrap.apps.svc.cluster.local:9092

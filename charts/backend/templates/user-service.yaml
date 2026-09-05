@@ -100,6 +100,26 @@ spec:
                 configMapKeyRef:
                   name: backend-runtime-config
                   key: SEARCH_SERVICE_GRPC_ADDRESS
+            - name: CHAT_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: CHAT_SERVICE_GRPC_ADDRESS
+            - name: NOTIFICATION_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: NOTIFICATION_SERVICE_GRPC_ADDRESS
+            - name: FEED_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: FEED_SERVICE_GRPC_ADDRESS
+            - name: MARKETPLACE_SERVICE_GRPC_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-runtime-config
+                  key: MARKETPLACE_SERVICE_GRPC_ADDRESS
             - name: VAULT_URI
               valueFrom:
                 configMapKeyRef:

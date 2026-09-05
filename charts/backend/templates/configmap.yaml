@@ -19,6 +19,8 @@ data:
   SEARCH_SERVICE_GRPC_ADDRESS: {{ .Values.config.SEARCH_SERVICE_GRPC_ADDRESS | quote }}
   FEED_SERVICE_GRPC_ADDRESS: {{ .Values.config.FEED_SERVICE_GRPC_ADDRESS | quote }}
   CHAT_SERVICE_GRPC_ADDRESS: {{ .Values.config.CHAT_SERVICE_GRPC_ADDRESS | quote }}
+  MARKETPLACE_SERVICE_GRPC_ADDRESS: {{ .Values.config.MARKETPLACE_SERVICE_GRPC_ADDRESS | default "dns:///marketplace-service:9096" | quote }}
+  NOTIFICATION_SERVICE_GRPC_ADDRESS: {{ .Values.config.NOTIFICATION_SERVICE_GRPC_ADDRESS | default "dns:///notificationservice:9093" | quote }}
   SCYLLA_CONTACT_POINTS: {{ .Values.config.SCYLLA_CONTACT_POINTS | quote }}
   MQTT_BROKER_URL: {{ .Values.config.MQTT_BROKER_URL | quote }}
   SPRING_KAFKA_BOOTSTRAP_SERVERS: {{ .Values.config.SPRING_KAFKA_BOOTSTRAP_SERVERS | quote }}
