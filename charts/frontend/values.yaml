@@ -1,7 +1,7 @@
 replicaCount: 2
 image:
   repository: ghcr.io/bmiazek18/facebook-clone-frontend
-  tag: "d257bf57b1e0614837611a4e1dbab2eaecbd99e3"
+  tag: "3a3f68a6534f6f34d1f6217522930a1a0a6cfd29"
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
