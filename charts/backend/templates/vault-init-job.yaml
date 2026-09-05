@@ -33,6 +33,21 @@ spec:
           done
           echo "Vault is ready. Writing secrets..."
           
+          # Write global backend-runtime-secrets for External Secrets Operator (ESO)
+          vault kv put -address=http://vault:8200 secret/backend-runtime-secrets \
+            SPRING_DATASOURCE_USERNAME={{ .Values.secrets.SPRING_DATASOURCE_USERNAME | quote }} \
+            SPRING_DATASOURCE_PASSWORD={{ .Values.secrets.SPRING_DATASOURCE_PASSWORD | quote }} \
+            CLICKHOUSE_USER={{ .Values.secrets.CLICKHOUSE_USER | default "default" | quote }} \
+            CLICKHOUSE_PASSWORD={{ .Values.secrets.CLICKHOUSE_PASSWORD | default "default_password" | quote }} \
+            MINIO_ACCESS_KEY={{ .Values.secrets.MINIO_ACCESS_KEY | quote }} \
+            MINIO_SECRET_KEY={{ .Values.secrets.MINIO_SECRET_KEY | quote }} \
+            NEO4J_USER={{ .Values.secrets.NEO4J_USER | default "neo4j" | quote }} \
+            NEO4J_PASSWORD={{ .Values.secrets.NEO4J_PASSWORD | quote }} \
+            VAULT_TOKEN={{ .Values.config.VAULT_TOKEN | default "vault-root-token" | quote }} \
+            SENTRY_DSN={{ .Values.secrets.SENTRY_DSN | default "" | quote }} \
+            LANGFUSE_PUBLIC_KEY={{ .Values.secrets.LANGFUSE_PUBLIC_KEY | default "" | quote }} \
+            LANGFUSE_SECRET_KEY={{ .Values.secrets.LANGFUSE_SECRET_KEY | default "" | quote }}
+
           # Write secrets for user-service
           vault kv put -address=http://vault:8200 secret/user-service \
             spring.datasource.username={{ .Values.secrets.SPRING_DATASOURCE_USERNAME | quote }} \
