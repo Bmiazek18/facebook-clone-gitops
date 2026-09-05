@@ -59,6 +59,7 @@ spec:
         - "1080"
         - -base-path
         - /files/
+        - -behind-proxy
         - -hooks-http
         - http://video-abr-service.apps.svc.cluster.local:8085/hooks
         resources:
