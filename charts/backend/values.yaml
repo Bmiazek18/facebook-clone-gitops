@@ -14,7 +14,7 @@ images:
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
   videoAbrService:
     repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
-    tag: "9811cc2d2080fd7444d608daaff1d520f2cc9c6c"
+    tag: "7ea5109acca4f5af4ee94924850b9da652ab6baa"
   searchService:
     repository: ghcr.io/bmiazek18/facebook-clone-search-service
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
@@ -26,10 +26,10 @@ images:
     tag: "v2.17.0"
   feedService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-service
-    tag: "ffdffb43d27f0e6eecd0e86d77222d05cfd82c91"
+    tag: "7ea5109acca4f5af4ee94924850b9da652ab6baa"
   feedEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-edge-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "7ea5109acca4f5af4ee94924850b9da652ab6baa"
   chatService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-service
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
