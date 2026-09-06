@@ -26,7 +26,7 @@ images:
     tag: "v2.17.0"
   feedService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-service
-    tag: "84007f66ebcd522ffb1eb38a12fafbc4416e0966"
+    tag: "ffdffb43d27f0e6eecd0e86d77222d05cfd82c91"
   feedEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-edge-service
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
