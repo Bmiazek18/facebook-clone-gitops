@@ -5,7 +5,7 @@ images:
     tag: "1c9ff248e4d858bac5862cee7a2135ca09f60a4f"
   userEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-edge-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "d2b0612acbddf831c71be8239aefb55ce859dc79"
   socialgraphService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-service
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
