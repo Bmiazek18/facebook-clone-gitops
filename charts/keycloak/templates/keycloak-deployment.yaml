@@ -59,6 +59,10 @@ spec:
             # Konfiguracja logów
             - name: KC_LOG_LEVEL
               value: "INFO,org.keycloak.cookie:ERROR"
+
+            # Facebook login secret for device token cookie SPI
+            - name: FACEBOOK_LOGIN_SECRET
+              value: {{ .Values.keycloak.actionTokenSecret | default "7bA9xN2mK5vP8rQ1wZ4eT7yU0iO3pL6k" | quote }}
           volumeMounts:
             - name: realm-config
               mountPath: /opt/keycloak/data/import/realm-export.json
