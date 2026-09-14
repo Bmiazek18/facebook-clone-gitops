@@ -64,11 +64,6 @@ data:
             keepalive 32;
         }
 
-        upstream groups-service-upstream {
-            server groups-service:9098;
-            keepalive 32;
-        }
-
         upstream feed-service-upstream {
             server feedservice:8086;
             keepalive 32;
@@ -154,11 +149,6 @@ data:
             # Linkguard Service
             location /api/linkguard/ {
                 proxy_pass http://linkguard-service-upstream/api/linkguard/;
-            }
-
-            # Groups Service
-            location /api/groups/ {
-                proxy_pass http://groups-service-upstream/api/groups/;
             }
 
             # Feed Service

@@ -1,3 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: clickhouse-config
+  namespace: {{ .Release.Namespace | default "apps" }}
+data:
+  memory.xml: |
+    <clickhouse>
+        <max_server_memory_usage>1610612736</max_server_memory_usage>
+    </clickhouse>
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -37,10 +50,17 @@ spec:
               memory: 256Mi
             limits:
               cpu: 1000m
-              memory: 1Gi
+              memory: 2Gi
           volumeMounts:
             - name: clickhouse-data
               mountPath: /var/lib/clickhouse
+            - name: clickhouse-config
+              mountPath: /etc/clickhouse-server/config.d/memory.xml
+              subPath: memory.xml
+      volumes:
+        - name: clickhouse-config
+          configMap:
+            name: clickhouse-config
   volumeClaimTemplates:
     - metadata:
         name: clickhouse-data

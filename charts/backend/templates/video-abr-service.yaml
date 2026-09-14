@@ -33,8 +33,18 @@ spec:
             - name: grpc
               containerPort: 9095
           env:
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-default-user
+                  key: username
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-default-user
+                  key: password
             - name: RABBITMQ_URL
-              value: "amqp://guest:guest@rabbitmq.apps.svc.cluster.local:5672/"
+              value: "amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.apps.svc.cluster.local:5672/"
             - name: FEED_SERVICE_GRPC_ADDRESS
               value: "feedservice:9092"
             - name: MINIO_ENDPOINT
