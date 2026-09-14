@@ -8,7 +8,7 @@ images:
     tag: "0aadea0f091998e9c822a1d8217b45e8b56d0bc0"
   socialgraphService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "e518497d7edd58073a965fb8ea967590dfd309a7"
   socialgraphEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-edge-service
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
