@@ -11,7 +11,7 @@ images:
     tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
   socialgraphEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-edge-service
-    tag: "0aadea0f091998e9c822a1d8217b45e8b56d0bc0"
+    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
   videoAbrService:
     repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
     tag: "7ea5109acca4f5af4ee94924850b9da652ab6baa"
