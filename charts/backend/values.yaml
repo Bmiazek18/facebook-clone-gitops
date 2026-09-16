@@ -2,61 +2,61 @@ replicaCount: 1
 images:
   userService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-service
-    tag: "1c9ff248e4d858bac5862cee7a2135ca09f60a4f"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   userEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-user-edge-service
-    tag: "0aadea0f091998e9c822a1d8217b45e8b56d0bc0"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   socialgraphService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-service
-    tag: "e518497d7edd58073a965fb8ea967590dfd309a7"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   socialgraphEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-socialgraph-edge-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   videoAbrService:
     repository: ghcr.io/bmiazek18/facebook-clone-video-abr-service
-    tag: "7ea5109acca4f5af4ee94924850b9da652ab6baa"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   searchService:
     repository: ghcr.io/bmiazek18/facebook-clone-search-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   notificationService:
     repository: ghcr.io/bmiazek18/facebook-clone-notification-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   apolloRouter:
     repository: ghcr.io/apollographql/router
     tag: "v2.17.0"
   feedService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-service
-    tag: "edd00533b9931ae61e46bf2f92f7058aa1b62075"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   feedEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-feed-edge-service
-    tag: "0aadea0f091998e9c822a1d8217b45e8b56d0bc0"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   chatService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   chatEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-chat-edge-service
-    tag: "0aadea0f091998e9c822a1d8217b45e8b56d0bc0"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   linkguardService:
     repository: ghcr.io/bmiazek18/facebook-clone-linkguard-service
-    tag: "9811cc2d2080fd7444d608daaff1d520f2cc9c6c"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   inferenceService:
     repository: ghcr.io/bmiazek18/facebook-clone-inference-service
     tag: "469cc1fdb1c960a57a15225a2acb4378075fcc66"
   analyticsService:
     repository: ghcr.io/bmiazek18/facebook-clone-analytics-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   recommendService:
     repository: ghcr.io/bmiazek18/facebook-clone-recommend-service
     tag: "84bd8a9892c97ee0880956070cad874e0a18cbbf"
   groupsService:
     repository: ghcr.io/bmiazek18/facebook-clone-groups-service
-    tag: "1c9ff248e4d858bac5862cee7a2135ca09f60a4f"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   marketplaceService:
     repository: ghcr.io/bmiazek18/facebook-clone-marketplace-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   marketplaceEdgeService:
     repository: ghcr.io/bmiazek18/facebook-clone-marketplace-edge-service
-    tag: "92ffc3d717936fec59d7f4ba23be1a356bb5a58d"
+    tag: "21a6b9d57c1659e8d71d9ece35b349d570b853e2"
   metaAiService:
     repository: ghcr.io/bmiazek18/facebook-clone-meta-ai-service
     tag: "7124d26f4ead224cae1e14e3f667b47dabd8cd0a"
