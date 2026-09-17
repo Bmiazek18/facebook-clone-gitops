@@ -48,7 +48,7 @@ spec:
             - name: FEED_SERVICE_GRPC_ADDRESS
               value: "feedservice:9092"
             - name: MINIO_ENDPOINT
-              value: "minio:9000"
+              value: "minio.apps.svc.cluster.local:80"
             - name: MINIO_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
